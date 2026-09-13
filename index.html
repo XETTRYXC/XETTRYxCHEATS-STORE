@@ -1,40 +1,495 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xettry Store | Secure Panel Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body { background-color: #0b0f19; color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .card-custom { background: #111827; border: 1px solid #1f2937; border-radius: 12px; }
-        .nav-pills .nav-link { color: #9ca3af; font-weight: 600; border-radius: 8px; }
-        .nav-pills .nav-link.active { background-color: #0ea5e9; color: #fff; }
-        .badge-custom { background: #1f2937; color: #38bdf8; }
-        
-        /* Pages Visibility Handler */
-        .page-view { display: none; }
-        .page-view.active { display: block; }
-    </style>
-</head>
-<body class="bg-dark text-white">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- ================= 1. LOGIN PAGE (सुरुमा देखिने छुट्टै पेज) ================= -->
-    <div id="view-login" class="page-view container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-        <div class="col-md-4">
-            <div class="card card-custom p-4 shadow-lg border-secondary">
-                <div class="text-center mb-4">
-                    <h2 class="text-info fw-bold"><i class="fa-solid fa-bolt"></i> Xettry Store</h2>
-                    <p class="text-muted small">Please login to access game panels & keys</p>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-light">Username / Name:</label>
-                    <input type="text" id="input-username" class="form-control bg-black text-white border-secondary" placeholder="e.g. Xettry VIP">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-light">Telegram User ID:</label>
-                    <input type="number" id="input-userid" class="form-control bg-black text-white border-secondary" placeholder="e.g. 12345678">
+<title>XETTRY x CHEATS</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#05070d;
+    color:white;
+}
+
+/* HEADER */
+header{
+    position:sticky;
+    top:0;
+    z-index:999;
+    background:rgba(5,7,13,.95);
+    border-bottom:1px solid #164b80;
+    backdrop-filter:blur(10px);
+}
+
+.navbar{
+    max-width:1100px;
+    margin:auto;
+    padding:12px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.brand img{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid #009dff;
+}
+
+.brand h2{
+    font-size:17px;
+}
+
+.brand span{
+    color:#00aaff;
+}
+
+.navbar a{
+    color:#ddd;
+    text-decoration:none;
+    margin-left:15px;
+    font-size:14px;
+}
+
+/* HERO */
+.hero{
+    text-align:center;
+    padding:55px 20px 40px;
+    background:
+    radial-gradient(circle at center,#063b70 0%,#05070d 55%);
+}
+
+.hero img{
+    width:160px;
+    height:160px;
+    border-radius:50%;
+    object-fit:cover;
+    box-shadow:0 0 45px #008cff;
+}
+
+.hero h1{
+    margin-top:20px;
+    font-size:clamp(35px,9vw,65px);
+    font-weight:900;
+}
+
+.hero h1 span{
+    color:#00aaff;
+}
+
+.hero p{
+    margin:15px auto;
+    max-width:600px;
+    color:#9baec5;
+    line-height:1.6;
+}
+
+.buttons{
+    margin-top:25px;
+}
+
+.btn{
+    display:inline-block;
+    padding:13px 23px;
+    margin:5px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.primary{
+    color:white;
+    background:#008cff;
+    box-shadow:0 0 20px #008cff66;
+}
+
+.secondary{
+    color:#ddd;
+    background:#0d1624;
+    border:1px solid #185485;
+}
+
+/* STORE */
+.store{
+    max-width:1100px;
+    margin:auto;
+    padding:35px 18px 60px;
+}
+
+.store-title{
+    text-align:center;
+    margin-bottom:25px;
+    font-size:28px;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(230px,1fr));
+    gap:18px;
+}
+
+.card{
+    background:linear-gradient(
+        145deg,
+        #0c1420,
+        #060a11
+    );
+
+    border:1px solid #153c63;
+    border-radius:16px;
+    padding:22px;
+
+    transition:.25s;
+
+    box-shadow:0 10px 30px #0008;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    border-color:#009dff;
+    box-shadow:0 0 25px #008cff44;
+}
+
+.card-icon{
+    font-size:35px;
+    margin-bottom:15px;
+}
+
+.card h3{
+    font-size:21px;
+}
+
+.card p{
+    color:#8da0b8;
+    font-size:14px;
+    margin-top:8px;
+    line-height:1.5;
+}
+
+.price{
+    color:#00aaff;
+    font-size:24px;
+    font-weight:bold;
+    margin:18px 0;
+}
+
+.buy{
+    display:block;
+    text-align:center;
+    padding:11px;
+    border-radius:9px;
+    background:#008cff;
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+/* CONTACT */
+.contact{
+    text-align:center;
+    padding:45px 20px;
+    background:#080d16;
+    border-top:1px solid #123452;
+}
+
+.contact h2{
+    margin-bottom:10px;
+}
+
+.contact p{
+    color:#91a4bc;
+}
+
+.contact a{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 25px;
+    background:#008cff;
+    color:white;
+    text-decoration:none;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:22px;
+    color:#657890;
+    font-size:13px;
+    border-top:1px solid #10253b;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+
+    .navbar{
+        padding:10px 12px;
+    }
+
+    .brand h2{
+        font-size:14px;
+    }
+
+    .brand img{
+        width:40px;
+        height:40px;
+    }
+
+    .navbar a{
+        margin-left:7px;
+        font-size:12px;
+    }
+
+    .hero{
+        padding-top:40px;
+    }
+
+    .hero img{
+        width:130px;
+        height:130px;
+    }
+
+    .hero h1{
+        font-size:36px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+<div class="navbar">
+
+<div class="brand">
+
+<img src="6625.png">
+
+<h2>
+XETTRY <span>x</span> CHEATS
+</h2>
+
+</div>
+
+<div>
+<a href="#home">Home</a>
+<a href="#store">Store</a>
+<a href="#contact">Contact</a>
+</div>
+
+</div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero" id="home">
+
+<img src="6625.png">
+
+<h1>
+XETTRY <span>x</span> CHEATS
+</h1>
+
+<p>
+Premium Gaming Panels, Keys & Digital Products.
+Everything you need in one place.
+</p>
+
+<div class="buttons">
+
+<a href="#store" class="btn primary">
+🔥 EXPLORE STORE
+</a>
+
+<a href="#contact" class="btn secondary">
+CONTACT
+</a>
+
+</div>
+
+</section>
+
+
+<!-- STORE -->
+
+<section class="store" id="store">
+
+<h2 class="store-title">
+🔥 FEATURED PRODUCTS
+</h2>
+
+<div class="products">
+
+
+<!-- PRODUCT 1 -->
+
+<div class="card">
+
+<div class="card-icon">
+🎮
+</div>
+
+<h3>
+Gaming Panel
+</h3>
+
+<p>
+Premium gaming panel product.
+</p>
+
+<div class="price">
+NPR 999
+</div>
+
+<a href="#contact" class="buy">
+GET NOW
+</a>
+
+</div>
+
+
+<!-- PRODUCT 2 -->
+
+<div class="card">
+
+<div class="card-icon">
+⚡
+</div>
+
+<h3>
+Premium Key
+</h3>
+
+<p>
+Digital key and subscription product.
+</p>
+
+<div class="price">
+NPR 499
+</div>
+
+<a href="#contact" class="buy">
+GET NOW
+</a>
+
+</div>
+
+
+<!-- PRODUCT 3 -->
+
+<div class="card">
+
+<div class="card-icon">
+👑
+</div>
+
+<h3>
+VIP Access
+</h3>
+
+<p>
+Premium VIP membership access.
+</p>
+
+<div class="price">
+NPR 1499
+</div>
+
+<a href="#contact" class="buy">
+GET NOW
+</a>
+
+</div>
+
+
+<!-- PRODUCT 4 -->
+
+<div class="card">
+
+<div class="card-icon">
+💎
+</div>
+
+<h3>
+Premium Package
+</h3>
+
+<p>
+Special premium digital package.
+</p>
+
+<div class="price">
+NPR 1999
+</div>
+
+<a href="#contact" class="buy">
+GET NOW
+</a>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- CONTACT -->
+
+<section class="contact" id="contact">
+
+<h2>
+📞 CONTACT XETTRY x CHEATS
+</h2>
+
+<p>
+For orders and support, contact us directly.
+</p>
+
+<a href="https://wa.me/9779708007648">
+WhatsApp
+</a>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+© 2026 XETTRY x CHEATS  
+<br>
+All Rights Reserved.
+
+</footer>
+
+
+</body>
+</html>                    <input type="number" id="input-userid" class="form-control bg-black text-white border-secondary" placeholder="e.g. 12345678">
                 </div>
                 <button class="btn btn-info w-100 fw-bold py-2 mt-2" onclick="processLogin()"><i class="fa-solid fa-right-to-bracket"></i> Login to Panel</button>
             </div>
