@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xettry Store | Game Panels & Keys</title>
+    <title>Xettry Store | Secure Panel Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -12,36 +12,40 @@
         .nav-pills .nav-link { color: #9ca3af; font-weight: 600; border-radius: 8px; }
         .nav-pills .nav-link.active { background-color: #0ea5e9; color: #fff; }
         .badge-custom { background: #1f2937; color: #38bdf8; }
-        .panel-container { display: none; }
-        .panel-container.active { display: block; }
+        
+        /* Pages Visibility Handler */
+        .page-view { display: none; }
+        .page-view.active { display: block; }
     </style>
 </head>
-<body class="container py-4" style="max-width: 950px;">
+<body class="bg-dark text-white">
 
-    <!-- 1. LOGIN / REGISTER PAGE (सुरुमा देखिने) -->
-    <div id="login-section" class="row justify-content-center align-items-center" style="min-height: 80vh;">
-        <div class="col-md-5">
-            <div class="card card-custom p-4 shadow-lg border-info">
+    <!-- ================= 1. LOGIN PAGE (सुरुमा देखिने छुट्टै पेज) ================= -->
+    <div id="view-login" class="page-view container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="col-md-4">
+            <div class="card card-custom p-4 shadow-lg border-secondary">
                 <div class="text-center mb-4">
-                    <h3 class="text-info fw-bold"><i class="fa-solid fa-bolt"></i> Xettry Store</h3>
-                    <p class="text-muted small">Access your game panels, keys and wallet</p>
+                    <h2 class="text-info fw-bold"><i class="fa-solid fa-bolt"></i> Xettry Store</h2>
+                    <p class="text-muted small">Please login to access game panels & keys</p>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label text-light">Your Name / Username:</label>
-                    <input type="text" id="reg-name" class="form-control bg-black text-white border-secondary" placeholder="e.g. Xettry VIP">
+                    <label class="form-label text-light">Username / Name:</label>
+                    <input type="text" id="input-username" class="form-control bg-black text-white border-secondary" placeholder="e.g. Xettry VIP">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label text-light">Telegram User ID (e.g. 12345678):</label>
-                    <input type="number" id="reg-id" class="form-control bg-black text-white border-secondary" placeholder="Numeric Telegram ID">
+                    <label class="form-label text-light">Telegram User ID:</label>
+                    <input type="number" id="input-userid" class="form-control bg-black text-white border-secondary" placeholder="e.g. 12345678">
                 </div>
-                <button class="btn btn-info w-100 fw-bold py-2 mt-2" onclick="handleLogin()"><i class="fa-solid fa-right-to-bracket"></i> Login / Register</button>
+                <button class="btn btn-info w-100 fw-bold py-2 mt-2" onclick="processLogin()"><i class="fa-solid fa-right-to-bracket"></i> Login to Panel</button>
             </div>
         </div>
     </div>
 
-    <!-- 2. MAIN DASHBOARD (लगइन गरेपछि खुल्ने) -->
-    <div id="dashboard-section" class="panel-container">
-        <!-- TOP HEADER -->
+
+    <!-- ================= 2. MAIN DASHBOARD (लगइन गरेपछि मात्र खुल्ने) ================= -->
+    <div id="view-dashboard" class="page-view container py-4" style="max-width: 950px;">
+        
+        <!-- Top Navbar -->
         <div class="card card-custom p-3 mb-4 shadow-sm">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <div>
@@ -49,12 +53,12 @@
                     <small class="text-muted">Instant Game Panels & License Keys</small>
                 </div>
                 <div id="user-info-box" class="d-flex align-items-center gap-3">
-                    <!-- JS ले यहाँ युजरको डेटा र ब्यालेन्स देखाउँछ -->
+                    <!-- JS ले यहाँ युजर डेटा र ब्यालेन्स देखाउँछ -->
                 </div>
             </div>
         </div>
 
-        <!-- NAVIGATION TABS -->
+        <!-- Navigation Tabs -->
         <ul class="nav nav-pills justify-content-center gap-2 mb-4 p-2 card card-custom" id="pills-tab">
             <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-shop"><i class="fa-solid fa-store"></i> Shop</button></li>
             <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-wallet"><i class="fa-solid fa-wallet"></i> Wallet</button></li>
@@ -63,14 +67,14 @@
             <li class="nav-item" id="admin-nav-btn" style="display:none;"><button class="nav-link text-warning" data-bs-toggle="pill" data-bs-target="#tab-admin"><i class="fa-solid fa-shield-halved"></i> Admin</button></li>
         </ul>
 
-        <!-- TAB CONTENTS -->
+        <!-- Tab Contents -->
         <div class="tab-content">
             
-            <!-- SHOP TAB (तिमीले मागेका र बोटमा भएका प्यानलहरू) -->
+            <!-- SHOP TAB -->
             <div class="tab-pane fade show active" id="tab-shop">
                 <h5 class="text-warning mb-3">🎮 Available Game Panels & Plans</h5>
                 <div class="row g-3" id="shop-products">
-                    <!-- JS Inject -->
+                    <!-- JS ले प्यानलहरू यहाँ लोड गर्छ -->
                 </div>
             </div>
 
@@ -78,13 +82,13 @@
             <div class="tab-pane fade" id="tab-wallet">
                 <div class="card card-custom p-4 text-center">
                     <h4 class="text-info">💳 Top Up Balance via QR</h4>
-                    <p class="text-muted">eSewa वा Khalti मा QR स्क्यान गरेर पैसा पठाउनुहोस् र डिपोजिट रिक्वेस्ट हाल्नुहोस्।</p>
+                    <p class="text-muted">eSewa वा Khalti मा QR स्क्यान गरेर पैसा पठाई डिपोजिट रिक्वेस्ट हाल्नुहोस्।</p>
                     <div class="my-3 col-md-6 mx-auto">
                         <input type="number" id="deposit-amt" class="form-control bg-dark text-white text-center fs-5" placeholder="Enter Amount (NPR)">
                     </div>
                     <div class="d-flex justify-content-center gap-3">
-                        <button class="btn btn-success px-4" onclick="requestDeposit('esewa')"><i class="fa-solid fa-qrcode"></i> eSewa Topup</button>
-                        <button class="btn btn-primary px-4" onclick="requestDeposit('khalti')"><i class="fa-solid fa-qrcode"></i> Khalti Topup</button>
+                        <button class="btn btn-success px-4" onclick="requestDeposit('esewa')">eSewa Topup</button>
+                        <button class="btn btn-primary px-4" onclick="requestDeposit('khalti')">Khalti Topup</button>
                     </div>
                 </div>
             </div>
@@ -93,7 +97,7 @@
             <div class="tab-pane fade" id="tab-keys">
                 <h5 class="text-warning mb-3">🔑 Your Purchased License Keys</h5>
                 <div id="my-keys-list" class="vstack gap-2">
-                    <!-- JS Inject -->
+                    <!-- JS ले किहरू यहाँ देखाउँछ -->
                 </div>
             </div>
 
@@ -101,7 +105,7 @@
             <div class="tab-pane fade" id="tab-reseller">
                 <div class="card card-custom p-4 text-center">
                     <h4 class="text-warning">👑 Reseller Partnership Hub</h4>
-                    <p class="text-muted mt-2">सस्तो होलसेल मूल्यमा प्यानलहरू पाउन र आफ्नै प्यानल बिक्री व्यवसाय सुरु गर्न Reseller बन्नुहोस्।</p>
+                    <p class="text-muted mt-2">सस्तो होलसेल मूल्यमा प्यानलहरू पाउन र आफ्नै प्यानल व्यवसाय चलाउन Reseller बन्नुहोस्।</p>
                     <a href="https://t.me/YourAdminUsername" target="_blank" class="btn btn-info w-50 mx-auto mt-2"><i class="fa-brands fa-telegram"></i> Contact Admin on Telegram</a>
                 </div>
             </div>
@@ -111,7 +115,7 @@
                 <div class="card card-custom p-4">
                     <h4 class="text-warning mb-3">🛠️ Admin Control Panel (Deposit Approvals)</h4>
                     <div id="admin-deposits-list">
-                        <!-- JS Inject -->
+                        <!-- JS ले पेन्डिङ डिपोजिटहरू यहाँ देखाउँछ -->
                     </div>
                 </div>
             </div>
@@ -123,7 +127,7 @@
     <script>
         const ADMIN_ID = 123456789; // आफ्नो टेलिग्राम एडमिन आईडी यहाँ राख्नु
 
-        // तिमीले अघि मागेका र बोटमा भएका प्यानलहरू (PUBG र Free Fire)
+        // प्यानल र प्लाङ्सहरूको डेटा
         const products = [
             { id: 'pubg', name: 'PUBG Mobile VIP Panel', plans: [{dur: '1 Day', price: 150}, {dur: '7 Days', price: 700}, {dur: '30 Days', price: 1800}] },
             { id: 'ff', name: 'Free Fire Headshot Mod', plans: [{dur: '1 Day', price: 120}, {dur: '7 Days', price: 600}, {dur: '30 Days', price: 1500}] },
@@ -139,34 +143,43 @@
 
         window.onload = function() {
             if(db.user) {
-                document.getElementById('login-section').style.display = 'none';
-                document.getElementById('dashboard-section').classList.add('active');
-                renderUI();
+                switchView('dashboard');
+                renderDashboard();
+            } else {
+                switchView('login');
             }
         };
 
-        function handleLogin() {
-            let name = document.getElementById('reg-name').value.trim();
-            let id = parseInt(document.getElementById('reg-id').value);
-            
+        function switchView(viewName) {
+            document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
+            if(viewName === 'login') {
+                document.getElementById('view-login').classList.add('active');
+            } else if(viewName === 'dashboard') {
+                document.getElementById('view-dashboard').classList.add('active');
+            }
+        }
+
+        function processLogin() {
+            let name = document.getElementById('input-username').value.trim();
+            let id = parseInt(document.getElementById('input-userid').value);
+
             if(!name || !id) {
-                alert('कृपया आफ्नो नाम र सही टेलिग्राम युजर आईडी (Number) भर्नुहोस्!');
+                alert('कृपया युजरनेम र टेलिग्राम आईडी दुवै सहि तरिकाले भर्नुहोस्!');
                 return;
             }
 
             db.user = { name, id };
-            if(id === ADMIN_ID) db.balance = 10000; // एडमिन भए टेस्टको लागि ब्यालेन्स दिन्छ
+            if(id === ADMIN_ID) db.balance = 10000; // एडमिनको लागि टेस्ट ब्यालेन्स
             localStorage.setItem('xettry_db', JSON.stringify(db));
 
-            document.getElementById('login-section').style.display = 'none';
-            document.getElementById('dashboard-section').classList.add('active');
-            renderUI();
+            switchView('dashboard');
+            renderDashboard();
         }
 
-        function renderUI() {
+        function renderDashboard() {
             let isAdmin = db.user.id === ADMIN_ID;
-            
-            // Header Info
+
+            // Header Info Render
             document.getElementById('user-info-box').innerHTML = `
                 <span class="badge badge-custom p-2">👤 ${db.user.name}</span>
                 <span class="badge bg-success p-2">💰 NPR ${db.balance}</span>
@@ -183,6 +196,102 @@
                     shopHtml += `<div class="d-flex justify-content-between align-items-center my-2">
                         <span>${pl.dur}</span>
                         <div><span class="text-success fw-bold me-3">NPR ${pl.price}</span>
+                        <button class="btn btn-outline-info btn-sm px-3" onclick="buyItem('${p.name}', '${pl.dur}', ${pl.price})">Buy</button></div>
+                    </div>`;
+                });
+                shopHtml += `</div></div>`;
+            });
+            document.getElementById('shop-products').innerHTML = shopHtml;
+
+            // My Keys Render
+            let keysHtml = '';
+            if(db.keys.length === 0) {
+                keysHtml = `<div class="alert alert-secondary text-center">कुनै पनि कीहरू भेटिएनन्। प्यानल खरिद गरेपछि यहाँ की देखिनेछ।</div>`;
+            } else {
+                db.keys.forEach(k => {
+                    keysHtml += `<div class="card card-custom p-3">
+                        <div class="d-flex justify-content-between"><b>${k.product} (${k.duration})</b><small class="text-muted">${k.date}</small></div>
+                        <div class="mt-2 p-2 bg-black rounded text-info user-select-all">KEY: <code>${k.key}</code></div>
+                    </div>`;
+                });
+            }
+            document.getElementById('my-keys-list').innerHTML = keysHtml;
+
+            // Admin Pending Deposits Render
+            if(isAdmin) {
+                let depHtml = '';
+                let pending = db.deposits.filter(d => d.status === 'PENDING');
+                if(pending.length === 0) {
+                    depHtml = '<p class="text-muted">कुनै पनि पेन्डिङ डिपोजिट रिक्वेस्ट छैन।</p>';
+                } else {
+                    pending.forEach(d => {
+                        depHtml += `<div class="d-flex justify-content-between align-items-center border-bottom border-secondary py-2">
+                            <div><b>${d.username}</b> - NPR ${d.amount} (${d.method.toUpperCase()})</div>
+                            <div>
+                                <button class="btn btn-success btn-sm me-1" onclick="approveDep(${d.id})">Approve</button>
+                                <button class="btn btn-danger btn-sm" onclick="rejectDep(${d.id})">Reject</button>
+                            </div>
+                        </div>`;
+                    });
+                }
+                document.getElementById('admin-deposits-list').innerHTML = depHtml;
+            }
+        }
+
+        function buyItem(product, duration, price) {
+            if(db.balance < price) {
+                alert('❌ ब्यालेन्स अपुग्दो छ! कृपया पहिले Wallet मा गएर डिपोजिट गर्नुहोस्।');
+                return;
+            }
+            if(confirm(`${product} (${duration}) को लागि NPR ${price} तिर्न कन्फर्म गर्नुहुन्छ?`)) {
+                db.balance -= price;
+                let randomKey = 'XETTRY-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Math.floor(Math.random()*9000+1000);
+                db.keys.unshift({ product, duration, key: randomKey, date: new Date().toLocaleDateString() });
+                localStorage.setItem('xettry_db', JSON.stringify(db));
+                alert('🎉 सफल! तपाईंको लाइसेन्स कि जेनरेट भयो, "My Keys" ट्याबमा हेर्नुहोस्।');
+                renderDashboard();
+            }
+        }
+
+        function requestDeposit(method) {
+            let amt = parseFloat(document.getElementById('deposit-amt').value);
+            if(!amt || amt <= 0) { alert('कृपया सहि रकम (Amount) हाल्नुहोस्!'); return; }
+            
+            db.deposits.push({ id: Date.now(), username: db.user.name, amount: amt, method: method, status: 'PENDING' });
+            localStorage.setItem('xettry_db', JSON.stringify(db));
+            alert('✅ डिपोजिट रिक्वेस्ट एडमिनकहाँ पठाइयो! एडमिनले अप्रुभ गरेपछि ब्यालेन्स जोडिनेछ।');
+            document.getElementById('deposit-amt').value = '';
+        }
+
+        function approveDep(id) {
+            let dep = db.deposits.find(d => d.id === id);
+            if(dep) {
+                dep.status = 'APPROVED';
+                db.balance += dep.amount;
+                localStorage.setItem('xettry_db', JSON.stringify(db));
+                renderDashboard();
+                alert('डिपोजिट सफलतापूर्वक अप्रुभ गरियो!');
+            }
+        }
+
+        function rejectDep(id) {
+            let dep = db.deposits.find(d => d.id === id);
+            if(dep) {
+                dep.status = 'REJECTED';
+                localStorage.setItem('xettry_db', JSON.stringify(db));
+                renderDashboard();
+                alert('डिपोजिट अस्वीकार गरियो!');
+            }
+        }
+
+        function logout() {
+            localStorage.clear();
+            location.reload();
+        }
+    </script>
+</body>
+</html>
+uccess fw-bold me-3">NPR ${pl.price}</span>
                         <button class="btn btn-outline-info btn-sm px-3" onclick="buyItem('${p.name}', '${pl.dur}', ${pl.price})">Buy</button></div>
                     </div>`;
                 });
