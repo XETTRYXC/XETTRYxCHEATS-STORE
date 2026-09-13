@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xettry X Cheats - Panel Store</title>
+    <title>Xettry X Cheats - Official Panel Store</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col">
 
-    <!-- AUTHENTICATION WRAPPER -->
+    <!-- ================= AUTHENTICATION SECTION ================= -->
     <div id="authSection" class="flex-grow flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl space-y-6">
+            
+            <!-- LOGO & TITLE -->
             <div class="text-center space-y-3 flex flex-col items-center">
-                <!-- Logo Image -->
-                <div class="w-20 h-20 bg-slate-800 rounded-2xl flex items-center justify-center border border-slate-700 overflow-hidden shadow-lg shadow-cyan-500/20">
-                    <img src="https://raw.githubusercontent.com/xettryx/XETTRYXCHEATS-STORE/main/logo.png" alt="Xettry X Cheats Logo" class="w-full h-full object-cover">
-                </div>
+                <a href="https://wa.me/9779708007648" target="_blank" class="block w-20 h-20 bg-slate-800 rounded-2xl border border-slate-700 overflow-hidden shadow-lg shadow-cyan-500/20 hover:scale-105 transition">
+                    <img src="https://i.ibb.co/6JDTrTgp/logo.png" alt="Xettry X Cheats Logo" class="w-full h-full object-cover">
+                </a>
                 <h1 class="text-2xl font-extrabold text-white tracking-wide">Xettry X Cheats</h1>
                 <p id="authSubtitle" class="text-xs text-slate-400">Login to access VIP gaming panels & keys</p>
             </div>
@@ -35,6 +36,186 @@
                 
                 <div class="flex justify-between text-xs pt-2">
                     <button onclick="switchAuthTab('forgot')" class="text-cyan-400 hover:underline">Forgot Password?</button>
+                    <button onclick="switchAuthTab('register')" class="text-cyan-400 hover:underline font-semibold">Create Account</button>
+                </div>
+            </div>
+
+            <!-- REGISTER FORM -->
+            <div id="registerForm" class="space-y-4 hidden">
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-400">Gmail ID / Email</label>
+                    <input type="email" id="regEmail" placeholder="example@gmail.com" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-400">Username</label>
+                    <input type="text" id="regUser" placeholder="Choose a username" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-400">Password</label>
+                    <input type="password" id="regPass" placeholder="Create password" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500">
+                </div>
+                <button onclick="handleRegister()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2.5 rounded-lg font-bold text-sm transition">Register Account</button>
+                
+                <div class="text-center pt-2">
+                    <button onclick="switchAuthTab('login')" class="text-xs text-cyan-400 hover:underline">Already have an account? Login</button>
+                </div>
+            </div>
+
+            <!-- FORGOT PASSWORD FORM -->
+            <div id="forgotForm" class="space-y-4 hidden">
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-400">Enter your registered Gmail</label>
+                    <input type="email" id="forgotEmail" placeholder="Your email" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500">
+                </div>
+                <button onclick="handleForgot()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2.5 rounded-lg font-bold text-sm transition">Reset Password</button>
+                
+                <div class="text-center pt-2">
+                    <button onclick="switchAuthTab('login')" class="text-xs text-cyan-400 hover:underline">Back to Login</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ================= DASHBOARD SECTION (USER) ================= -->
+    <div id="dashboardSection" class="hidden flex-col min-h-screen">
+        <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
+            <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+                <span class="font-bold text-base md:text-lg text-cyan-400">Xettry X Cheats</span>
+                <div class="flex items-center space-x-2 md:space-x-3">
+                    <div class="bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-lg text-xs flex items-center space-x-2">
+                        <i class="fa-solid fa-wallet text-cyan-400"></i>
+                        <span id="userBalance" class="font-bold text-green-400">Rs. 0</span>
+                    </div>
+                    <button onclick="openTab('store')" class="text-xs text-slate-300 hover:text-cyan-400 font-semibold hidden sm:inline">Store</button>
+                    <button onclick="openTab('profile')" class="text-xs text-slate-300 hover:text-cyan-400 font-semibold">Profile</button>
+                    <button onclick="openTab('addBalance')" class="bg-cyan-500 text-slate-950 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-cyan-400 transition">Add Balance</button>
+                    <button onclick="handleLogout()" class="bg-red-500/10 text-red-400 hover:bg-red-500/20 px-3 py-1.5 rounded-lg text-xs font-bold border border-red-500/30 transition">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="max-w-5xl mx-auto px-4 py-6 flex-grow space-y-6 w-full">
+            
+            <!-- STORE TAB -->
+            <div id="tabStore" class="space-y-6">
+                <div class="bg-gradient-to-r from-cyan-950/60 to-blue-950/60 border border-cyan-500/30 rounded-2xl p-6 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-xl font-extrabold text-white">Welcome, <span id="displayUsername" class="text-cyan-400">User</span>!</h2>
+                        <p class="text-slate-300 text-xs">Select your preferred panels & keys.</p>
+                    </div>
+                    <span class="text-green-400 font-bold text-xs bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-800"><i class="fa-solid fa-circle-check"></i> VIP Active</span>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="text-md font-bold border-l-4 border-cyan-400 pl-3">Available Panels & Prices</h3>
+                    
+                    <!-- GRID OF ALL PANELS -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        
+                        <!-- 1. Drip Client APK Mod -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+                            <span class="bg-cyan-500/10 text-cyan-400 text-xs px-2.5 py-1 rounded-full font-semibold">🔥 DRIP CLIENT APK MOD</span>
+                            <ul class="space-y-1 text-xs text-slate-300">
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>1 Day</span><span class="text-green-400 font-bold">NPR 150 ≈ $0.99</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>3 Days</span><span class="text-green-400 font-bold">NPR 350 ≈ $2.32</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>7 Days</span><span class="text-green-400 font-bold">NPR 550 ≈ $3.64</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>15 Days</span><span class="text-green-400 font-bold">NPR 850 ≈ $5.63</span></li>
+                                <li class="flex justify-between py-1"><span>30 Days</span><span class="text-green-400 font-bold">NPR 1,400 ≈ $9.27</span></li>
+                            </ul>
+                            <a href="https://wa.me/9779708007648?text=I%20want%20to%20buy%20DRIP%20CLIENT%20APK%20MOD" target="_blank" class="block text-center bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2 rounded-lg font-bold text-xs transition">Buy via WhatsApp</a>
+                        </div>
+
+                        <!-- 2. Drip Client Proxy APK -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+                            <span class="bg-cyan-500/10 text-cyan-400 text-xs px-2.5 py-1 rounded-full font-semibold">🔥 DRIP CLIENT PROXY APK</span>
+                            <ul class="space-y-1 text-xs text-slate-300">
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>1 Day</span><span class="text-green-400 font-bold">NPR 150 ≈ $0.99</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>3 Days</span><span class="text-green-400 font-bold">NPR 350 ≈ $2.32</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>7 Days</span><span class="text-green-400 font-bold">NPR 550 ≈ $3.64</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>15 Days</span><span class="text-green-400 font-bold">NPR 850 ≈ $5.63</span></li>
+                                <li class="flex justify-between py-1"><span>30 Days</span><span class="text-green-400 font-bold">NPR 1,400 ≈ $9.27</span></li>
+                            </ul>
+                            <a href="https://wa.me/9779708007648?text=I%20want%20to%20buy%20DRIP%20CLIENT%20PROXY" target="_blank" class="block text-center bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2 rounded-lg font-bold text-xs transition">Buy via WhatsApp</a>
+                        </div>
+
+                        <!-- 3. Drip Client Wire Safe -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+                            <span class="bg-cyan-500/10 text-cyan-400 text-xs px-2.5 py-1 rounded-full font-semibold">🔥 DRIP CLIENT WIRE SAFE</span>
+                            <ul class="space-y-1 text-xs text-slate-300">
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>6 Hours</span><span class="text-green-400 font-bold">NPR 95 ≈ $0.63</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>12 Hours</span><span class="text-green-400 font-bold">NPR 150 ≈ $0.99</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>1 Day</span><span class="text-green-400 font-bold">NPR 250 ≈ $1.65</span></li>
+                                <li class="flex justify-between py-1"><span>7 Days</span><span class="text-green-400 font-bold">NPR 780 ≈ $5.16</span></li>
+                            </ul>
+                            <a href="https://wa.me/9779708007648?text=I%20want%20to%20buy%20DRIP%20WIRE%20SAFE" target="_blank" class="block text-center bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2 rounded-lg font-bold text-xs transition">Buy via WhatsApp</a>
+                        </div>
+
+                        <!-- 4. HG Cheats Mod APK -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+                            <span class="bg-purple-500/10 text-purple-400 text-xs px-2.5 py-1 rounded-full font-semibold">🔥 HG CHEATS MOD APK</span>
+                            <ul class="space-y-1 text-xs text-slate-300">
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>1 Day</span><span class="text-green-400 font-bold">NPR 150 ≈ $0.99</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>7 Days</span><span class="text-green-400 font-bold">NPR 500 ≈ $3.31</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>10 Days</span><span class="text-green-400 font-bold">NPR 650 ≈ $4.30</span></li>
+                                <li class="flex justify-between py-1"><span>30 Days</span><span class="text-green-400 font-bold">NPR 1,250 ≈ $8.27</span></li>
+                            </ul>
+                            <a href="https://wa.me/9779708007648?text=I%20want%20to%20buy%20HG%20CHEATS" target="_blank" class="block text-center bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2 rounded-lg font-bold text-xs transition">Buy via WhatsApp</a>
+                        </div>
+
+                        <!-- 5. HG Cheats Proxy -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+                            <span class="bg-purple-500/10 text-purple-400 text-xs px-2.5 py-1 rounded-full font-semibold">🔥 HG CHEATS PROXY</span>
+                            <ul class="space-y-1 text-xs text-slate-300">
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>1 Day</span><span class="text-green-400 font-bold">NPR 100 ≈ $0.66</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>7 Days</span><span class="text-green-400 font-bold">NPR 350 ≈ $2.32</span></li>
+                                <li class="flex justify-between py-1"><span>10 Days</span><span class="text-green-400 font-bold">NPR 450 ≈ $2.98</span></li>
+                            </ul>
+                            <a href="https://wa.me/9779708007648?text=I%20want%20to%20buy%20HG%20PROXY" target="_blank" class="block text-center bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2 rounded-lg font-bold text-xs transition">Buy via WhatsApp</a>
+                        </div>
+
+                        <!-- 6. Prime Hook Mod APK -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+                            <span class="bg-amber-500/10 text-amber-400 text-xs px-2.5 py-1 rounded-full font-semibold">🔥 PRIME HOOK MOD APK</span>
+                            <ul class="space-y-1 text-xs text-slate-300">
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>1 Day</span><span class="text-green-400 font-bold">NPR 100 ≈ $0.66</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>3 Days</span><span class="text-green-400 font-bold">NPR 180 ≈ $1.19</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>7 Days</span><span class="text-green-400 font-bold">NPR 450 ≈ $2.98</span></li>
+                                <li class="flex justify-between py-1"><span>10 Days</span><span class="text-green-400 font-bold">NPR 550 ≈ $3.64</span></li>
+                            </ul>
+                            <a href="https://wa.me/9779708007648?text=I%20want%20to%20buy%20PRIME%20HOOK" target="_blank" class="block text-center bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2 rounded-lg font-bold text-xs transition">Buy via WhatsApp</a>
+                        </div>
+
+                        <!-- 7. Pato Team Blue Mod APK -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+                            <span class="bg-blue-500/10 text-blue-400 text-xs px-2.5 py-1 rounded-full font-semibold">🔵 PATO TEAM BLUE MOD APK</span>
+                            <ul class="space-y-1 text-xs text-slate-300">
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>3 Days</span><span class="text-green-400 font-bold">NPR 350 ≈ $2.32</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>7 Days</span><span class="text-green-400 font-bold">NPR 650 ≈ $4.30</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>15 Days</span><span class="text-green-400 font-bold">NPR 1,250 ≈ $8.27</span></li>
+                                <li class="flex justify-between py-1"><span>30 Days</span><span class="text-green-400 font-bold">NPR 1,800 ≈ $11.91</span></li>
+                            </ul>
+                            <a href="https://wa.me/9779708007648?text=I%20want%20to%20buy%20PATO%20BLUE" target="_blank" class="block text-center bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2 rounded-lg font-bold text-xs transition">Buy via WhatsApp</a>
+                        </div>
+
+                        <!-- 8. Pato Team Orange Mod APK -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+                            <span class="bg-orange-500/10 text-orange-400 text-xs px-2.5 py-1 rounded-full font-semibold">🟠 PATO TEAM ORANGE MOD APK</span>
+                            <ul class="space-y-1 text-xs text-slate-300">
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>3 Days</span><span class="text-green-400 font-bold">NPR 500 ≈ $3.31</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>7 Days</span><span class="text-green-400 font-bold">NPR 800 ≈ $5.29</span></li>
+                                <li class="flex justify-between border-b border-slate-800/60 py-1"><span>15 Days</span><span class="text-green-400 font-bold">NPR 1,250 ≈ $8.27</span></li>
+                                <li class="flex justify-between py-1"><span>30 Days</span><span class="text-green-400 font-bold">NPR 1,900 ≈ $12.58</span></li>
+                            </ul>
+                            <a href="https://wa.me/9779708007648?text=I%20want%20to%20buy%20PATO%20ORANGE" target="_blank" class="block text-center bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2 rounded-lg font-bold text-xs transition">Buy via WhatsApp</a>
+                        </div>
+
+                        <!-- 9. Pato Team Regedit Proxy -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+                            <span class="bg-yellow-500/10 text-yellow-400 text-xs px-2.5 py-1 rounded-full font-semibold">⚡ PATO TEAM REGEDIT PROXY</span>
+                            <ul class="space-y-1 text-xs text-slate-300">
+                                <li class="flex justi                    <button onclick="switchAuthTab('forgot')" class="text-cyan-400 hover:underline">Forgot Password?</button>
                     <button onclick="switchAuthTab('register')" class="text-cyan-400 hover:underline font-semibold">Create Account</button>
                 </div>
             </div>
