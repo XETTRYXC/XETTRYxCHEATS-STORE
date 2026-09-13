@@ -3,37 +3,319 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Store - Gaming Panel & License Keys</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>XETTRYX CHEATS & PANELS STORE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col">
 
-    <!-- Header / Navbar -->
-    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="text-xl font-bold tracking-wider text-red-500 flex items-center gap-2">
-                <i class="fa-solid fa-gamepad"></i> PANEL <span class="text-white">STORE</span>
+    <!-- AUTHENTICATION WRAPPER (Shown when logged out) -->
+    <div id="authSection" class="flex-grow flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl space-y-6">
+            <div class="text-center space-y-2">
+                <i class="fa-solid fa-shield-halved text-cyan-400 text-4xl"></i>
+                <h1 class="text-2xl font-extrabold text-white tracking-wide">XETTRYX STORE</h1>
+                <p id="authSubtitle" class="text-xs text-slate-400">Login to access VIP gaming panels & keys</p>
             </div>
-            <div class="flex gap-4">
-                <a href="#products" class="text-sm font-medium hover:text-red-400 transition">Products</a>
-                <a href="#contact" class="text-sm font-medium hover:text-red-400 transition">Contact</a>
+
+            <!-- LOGIN FORM -->
+            <div id="loginForm" class="space-y-4">
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-400">Username or Email</label>
+                    <input type="text" id="loginUser" placeholder="Enter username/email" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-400">Password</label>
+                    <input type="password" id="loginPass" placeholder="Enter password" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500">
+                </div>
+                <button onclick="handleLogin()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2.5 rounded-lg font-bold text-sm transition">Login</button>
+                
+                <div class="flex justify-between text-xs pt-2">
+                    <button onclick="switchAuthTab('forgot')" class="text-cyan-400 hover:underline">Forgot Password?</button>
+                    <button onclick="switchAuthTab('register')" class="text-cyan-400 hover:underline font-semibold">Create Account</button>
+                </div>
+            </div>
+
+            <!-- REGISTER FORM (Hidden by default) -->
+            <div id="registerForm" class="space-y-4 hidden">
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-400">Gmail ID / Email</label>
+                    <input type="email" id="regEmail" placeholder="example@gmail.com" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-400">Username</label>
+                    <input type="text" id="regUser" placeholder="Choose a username" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-400">Password</label>
+                    <input type="password" id="regPass" placeholder="Create password" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500">
+                </div>
+                <button onclick="handleRegister()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2.5 rounded-lg font-bold text-sm transition">Register Account</button>
+                
+                <div class="text-center pt-2">
+                    <button onclick="switchAuthTab('login')" class="text-xs text-cyan-400 hover:underline">Already have an account? Login</button>
+                </div>
+            </div>
+
+            <!-- FORGOT PASSWORD FORM (Hidden by default) -->
+            <div id="forgotForm" class="space-y-4 hidden">
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-400">Enter your Gmail ID</label>
+                    <input type="email" id="forgotEmail" placeholder="Your registered gmail" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500">
+                </div>
+                <button onclick="handleForgot()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2.5 rounded-lg font-bold text-sm transition">Reset Password</button>
+                
+                <div class="text-center pt-2">
+                    <button onclick="switchAuthTab('login')" class="text-xs text-cyan-400 hover:underline">Back to Login</button>
+                </div>
             </div>
         </div>
-    </header>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="py-16 px-4 text-center max-w-4xl mx-auto">
-        <span class="bg-red-500/10 text-red-400 text-xs font-semibold px-3 py-1 rounded-full border border-red-500/20">
-            🔥 Premium Gaming Panels & Keys
-        </span>
-        <h1 class="text-4xl md:text-6xl font-extrabold mt-6 tracking-tight">
-            Get Your Ultimate <span class="text-red-500">Gaming Panel</span> Today
-        </h1>
-        <p class="text-slate-400 mt-4 text-lg">
-            High performance, secure license keys, and instant automated setups for your favorite games.
-        </p>
+    <!-- DASHBOARD PANEL STORE (Hidden until logged in) -->
+    <div id="dashboardSection" class="hidden flex-col min-h-screen">
+        <!-- Header / Navbar -->
+        <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-shield-halved text-cyan-400 text-2xl"></i>
+                    <span class="font-bold text-lg tracking-wider text-cyan-400">XETTRYX STORE</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1">
+                        <i class="fa-solid fa-wallet text-cyan-400"></i>
+                        <span id="userBalance" class="font-bold text-green-400">Rs. 0</span>
+                    </div>
+                    <button onclick="openModal('balanceModal')" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-2.5 py-1.5 rounded-lg text-xs font-bold">Top-up</button>
+                    <button onclick="handleLogout()" class="bg-red-500/10 text-red-400 hover:bg-red-500/20 px-2.5 py-1.5 rounded-lg text-xs font-bold border border-red-500/30">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Content -->
+        <main class="max-w-7xl mx-auto px-4 py-6 flex-grow space-y-8 w-full">
+            <!-- Welcome Banner -->
+            <div class="bg-gradient-to-r from-cyan-900/40 to-blue-900/40 border border-cyan-500/30 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <div class="space-y-1 text-center md:text-left">
+                    <h2 class="text-xl md:text-2xl font-extrabold text-white">Welcome, <span id="displayUsername" class="text-cyan-400">User</span>!</h2>
+                    <p class="text-slate-300 text-xs md:text-sm">Select your premium gaming panel or key below for instant deployment.</p>
+                </div>
+                <div class="bg-slate-900/80 border border-slate-800 px-4 py-3 rounded-xl text-center">
+                    <span class="text-xs text-slate-400 block">Account Status</span>
+                    <span class="text-green-400 font-bold text-sm"><i class="fa-solid fa-circle-check"></i> Active Member</span>
+                </div>
+            </div>
+
+            <!-- Panels Grid -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-bold border-l-4 border-cyan-400 pl-3">Available Gaming Panels & Keys</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Panel 1 -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="bg-cyan-500/10 text-cyan-400 text-xs px-2.5 py-1 rounded-full font-semibold">VIP PANEL</span>
+                                <span class="text-green-400 font-bold text-lg">Rs. 1,000</span>
+                            </div>
+                            <h4 class="font-bold text-base text-white">Xettryx VIP Panel (30 Days)</h4>
+                            <p class="text-slate-400 text-xs mt-1">Full control, 24/7 uptime, anti-ban protection, instant key delivery.</p>
+                        </div>
+                        <button onclick="buyProduct('Xettryx VIP Panel', 1000)" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2 rounded-lg font-bold text-sm transition">Buy Panel</button>
+                    </div>
+
+                    <!-- Panel 2 -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="bg-purple-500/10 text-purple-400 text-xs px-2.5 py-1 rounded-full font-semibold">PRO INJECTOR</span>
+                                <span class="text-green-400 font-bold text-lg">Rs. 500</span>
+                            </div>
+                            <h4 class="font-bold text-base text-white">Pro Injector Key (7 Days)</h4>
+                            <p class="text-slate-400 text-xs mt-1">High speed injection, safe bypass, regular updates included.</p>
+                        </div>
+                        <button onclick="buyProduct('Pro Injector Key', 500)" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2 rounded-lg font-bold text-sm transition">Buy Key</button>
+                    </div>
+
+                    <!-- Panel 3 -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="bg-yellow-500/10 text-yellow-400 text-xs px-2.5 py-1 rounded-full font-semibold">LIFETIME</span>
+                                <span class="text-green-400 font-bold text-lg">Rs. 2,500</span>
+                            </div>
+                            <h4 class="font-bold text-base text-white">Lifetime Master Pass</h4>
+                            <p class="text-slate-400 text-xs mt-1">Unlimited access to all panels and future updates forever.</p>
+                        </div>
+                        <button onclick="buyProduct('Lifetime Master Pass', 2500)" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2 rounded-lg font-bold text-sm transition">Buy Pass</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-slate-900 border-t border-slate-800 text-center py-4 text-xs text-slate-500 mt-auto">
+            &copy; 2026 XETTRYX CHEATS STORE. All rights reserved.
+        </footer>
+    </div>
+
+    <!-- Balance / Top-up Modal -->
+    <div id="balanceModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 w-full max-w-sm space-y-4">
+            <div class="flex justify-between items-center">
+                <h3 class="font-bold text-lg">Add Balance / Top-up</h3>
+                <button onclick="closeModal('balanceModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p class="text-xs text-slate-400">Send payment to Admin and submit your transaction proof or keyword below to get balance added instantly.</p>
+            <input type="number" id="topupAmount" placeholder="Amount (Rs.)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500">
+            <input type="text" id="topupTx" placeholder="Transaction ID / Keyword" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500">
+            <button onclick="submitTopup()" class="w-full bg-cyan-500 text-slate-950 py-2 rounded-lg font-bold text-sm">Submit Request</button>
+        </div>
+    </div>
+
+    <script>
+        // Check if already logged in
+        window.onload = function() {
+            const savedUser = localStorage.getItem('xettryx_user');
+            if (savedUser) {
+                showDashboard(savedUser);
+            }
+        };
+
+        function switchAuthTab(tab) {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('forgotForm').classList.add('hidden');
+            
+            if(tab === 'login') {
+                document.getElementById('loginForm').classList.remove('hidden');
+                document.getElementById('authSubtitleinnerText = "Login to access VIP gaming panels & keys"');
+            } else if(tab === 'register') {
+                document.getElementById('registerForm').classList.remove('hidden');
+            } else if(tab === 'forgot') {
+                document.getElementById('forgotForm').classList.remove('hidden');
+            }
+        }
+
+        function handleRegister() {
+            const email = document.getElementById('regEmail').value.trim();
+            const user = document.getElementById('regUser').value.trim();
+            const pass = document.getElementById('regPass').value.trim();
+
+            if(!email || !user || !pass) {
+                alert('Please fill in all fields (Gmail, Username, Password)!');
+                return;
+            }
+            if(!email.includes('@gmail.com')) {
+                alert('Please enter a valid Gmail ID!');
+                return;
+            }
+
+            // Save user to browser storage
+            localStorage.setItem('xettryx_reg_email', email);
+            localStorage.setItem('xettryx_reg_user', user);
+            localStorage.setItem('xettryx_reg_pass', pass);
+            localStorage.setItem('xettryx_balance', '0');
+
+            alert('Account created successfully! Please login with your credentials.');
+            switchAuthTab('login');
+        }
+
+        function handleLogin() {
+            const userInput = document.getElementById('loginUser').value.trim();
+            const passInput = document.getElementById('loginPass').value.trim();
+
+            const regUser = localStorage.getItem('xettryx_reg_user');
+            const regEmail = localStorage.getItem('xettryx_reg_email');
+            const regPass = localStorage.getItem('xettryx_reg_pass');
+
+            // Default admin account if none registered
+            if((userInput === 'admin' && passInput === 'admin123') || 
+               ((userInput === regUser || userInput === regEmail) && passInput === regPass)) {
+                
+                const activeName = regUser ? regUser : userInput;
+                localStorage.setItem('xettryx_user', activeName);
+                showDashboard(activeName);
+            } else {
+                alert('Invalid Username/Gmail or Password! If you have not created an account yet, please click "Create Account".');
+            }
+        }
+
+        function handleForgot() {
+            const email = document.getElementById('forgotEmail').value.trim();
+            const regEmail = localStorage.getItem('xettryx_reg_email');
+
+            if(!email) {
+                alert('Please enter your Gmail ID!');
+                return;
+            }
+            if(email === regEmail || email === 'admin@gmail.com') {
+                alert('Password reset instructions have been sent to your Gmail ID!');
+                switchAuthTab('login');
+            } else {
+                alert('This Gmail ID is not registered in our system.');
+            }
+        }
+
+        function showDashboard(username) {
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('dashboardSection').classList.remove('hidden');
+            document.getElementById('displayUsername').innerText = username;
+            
+            const balance = localStorage.getItem('xettryx_balance') || '0';
+            document.getElementById('userBalance').innerText = 'Rs. ' + balance;
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('xettryx_user');
+            document.getElementById('dashboardSection').classList.add('hidden');
+            document.getElementById('authSection').classList.remove('hidden');
+            document.getElementById('loginUser').value = '';
+            document.getElementById('loginPass').value = '';
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function submitTopup() {
+            const amt = document.getElementById('topupAmount').value;
+            const tx = document.getElementById('topupTx').value;
+            if(!amt || !tx) {
+                alert('Please enter amount and transaction keyword!');
+                return;
+            }
+            
+            // Update balance simulation
+            let currentBal = parseInt(localStorage.getItem('xettryx_balance') || '0');
+            currentBal += parseInt(amt);
+            localStorage.setItem('xettryx_balance', currentBal);
+            document.getElementById('userBalance').innerText = 'Rs. ' + currentBal;
+
+            alert('Top-up request verified and Rs. ' + amt + ' added to your wallet!');
+            closeModal('balanceModal');
+            document.getElementById('topupAmount').value = '';
+            document.getElementById('topupTx').value = '';
+        }
+
+        function buyProduct(name, price) {
+            let currentBal = parseInt(localStorage.getItem('xettryx_balance') || '0');
+            if(currentBal < price) {
+                alert('Insufficient balance! Please top-up your wallet first.');
+                openModal('balanceModal');
+                return;
+            }
+            currentBal -= price;
+            localStorage.setItem('xettryx_balance', currentBal);
+            document.getElementById('userBalance').innerText = 'Rs. ' + currentBal;
+            alert('Successfully purchased ' + name + '! Your license key has been generated and activated.');
+        }
+    </script>
+</body>
+</html>
     </section>
 
     <!-- Products Pricing Section -->
