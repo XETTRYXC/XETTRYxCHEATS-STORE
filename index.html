@@ -19,21 +19,333 @@
         .nav-pills .nav-link.active { background: linear-gradient(135deg, #0284c7, #0ea5e9); color: #fff; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4); }
         .stat-card { background: linear-gradient(145deg, #111827, #0f172a); border: 1px solid var(--border-color); border-radius: 12px; }
         
-        /* Strict View Control: लुकाउने र देखाउने सिस्टम */
-        .app-view { display: none !important; }
-        .app-view.show-view { display: block !important; }
-        .app-view.flex-view { display: flex !important; }
+        /* Strict View Isolation: कसैले कसैको ठाउँ नमिच्ने */
+        .app-section { display: none !important; }
+        .app-section.active-section { display: block !important; }
+        .app-section.active-flex { display: flex !important; }
 
         .form-control:focus, .form-select:focus { background-color: #000; color: #fff; border-color: #0ea5e9; box-shadow: 0 0 0 0.25rem rgba(14, 165, 233, 0.25); }
     </style>
 </head>
 <body class="py-4 px-2">
 
-    <!-- ================= 1. LOGIN SCREEN (सुरुमा मात्र देखिने) ================= -->
-    <div id="view-login" class="app-view flex-view container justify-content-center align-items-center" style="min-height: 90vh;">
-        <div class="col-md-5 col-lg-4">
-            <div class="glass-card p-4 p-md-5">
-                <div class="text-center mb-4">
+    <!-- ================= 1. LOGIN SCREEN (सुरुमा मात्र देखा पर्ने) ================= -->
+    <div id="view-login" class="app-section container justify-content-center align-items-center" style="min-height: 90vh;">
+        <div class="row justify-content-center w-100 m-0">
+            <div class="col-md-5 col-lg-4">
+                <div class="glass-card p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <div class="display-5 text-info mb-2"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h3 class="fw-bold text-white">Xettry Store</h3>
+                        <p class="text-muted small">Secure Panel & Key Distribution Hub</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-light small fw-bold">Your Name / Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-black border-secondary text-info"><i class="fa-solid fa-user"></i></span>
+                            <input type="text" id="input-username" class="form-control bg-black text-white border-secondary" placeholder="e.g. Xettry VIP">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label text-light small fw-bold">Telegram User ID</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-black border-secondary text-info"><i class="fa-solid fa-id-badge"></i></span>
+                            <input type="number" id="input-userid" class="form-control bg-black text-white border-secondary" placeholder="e.g. 12345678">
+                        </div>
+                    </div>
+                    <button class="btn btn-info w-100 fw-bold py-2 shadow-sm text-dark" onclick="processLogin()"><i class="fa-solid fa-arrow-right-to-bracket"></i> Enter Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ================= 2. MAIN DASHBOARD (लगइन भएपछि मात्र खुल्ने) ================= -->
+    <div id="view-dashboard" class="app-section container" style="max-width: 1000px;">
+        
+        <!-- TOP HEADER / PROFILE BAR -->
+        <div class="glass-card p-4 mb-4">
+            <div class="row align-items-center gy-3">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="bg-info bg-opacity-10 p-3 rounded-circle text-info fs-4">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <div>
+                            <h4 class="fw-bold text-white mb-0">Xettry Control Hub</h4>
+                            <small class="text-muted">Welcome back, <span id="display-username" class="text-info fw-bold">User</span></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-md-end align-items-center gap-3 flex-wrap">
+                        <div class="stat-card px-3 py-2 d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-wallet text-success fs-5"></i>
+                            <div>
+                                <small class="text-muted d-block" style="font-size: 10px;">AVAILABLE BALANCE</small>
+                                <span class="fw-bold text-success" id="display-balance">NPR 0</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-danger btn-sm px-3" onclick="logout()"><i class="fa-solid fa-power-off"></i> Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NAVIGATION TABS -->
+        <ul class="nav nav-pills justify-content-center gap-2 mb-4 p-2 glass-card">
+            <li class="nav-item"><button class="nav-link active px-4" data-bs-toggle="pill" data-bs-target="#tab-shop"><i class="fa-solid fa-store me-1"></i> Shop</button></li>
+            <li class="nav-item"><button class="nav-link px-4" data-bs-toggle="pill" data-bs-target="#tab-wallet"><i class="fa-solid fa-wallet me-1"></i> Wallet</button></li>
+            <li class="nav-item"><button class="nav-link px-4" data-bs-toggle="pill" data-bs-target="#tab-keys"><i class="fa-solid fa-key me-1"></i> My Keys</button></li>
+            <li class="nav-item"><button class="nav-link px-4" data-bs-toggle="pill" data-bs-target="#tab-reseller"><i class="fa-solid fa-crown me-1"></i> Reseller</button></li>
+            <li class="nav-item" id="admin-nav-btn" style="display:none;"><button class="nav-link text-warning px-4" data-bs-toggle="pill" data-bs-target="#tab-admin"><i class="fa-solid fa-shield-halved me-1"></i> Admin</button></li>
+        </ul>
+
+        <!-- TAB CONTENTS -->
+        <div class="tab-content">
+            
+            <!-- SHOP TAB -->
+            <div class="tab-pane fade show active" id="tab-shop">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold text-info"><i class="fa-solid fa-gamepad"></i> Game Panels & VIP Mod Plans</h5>
+                    <span class="badge bg-dark border border-secondary text-muted">Instant Auto-Delivery</span>
+                </div>
+                <div class="row g-3" id="shop-products">
+                    <!-- JS ले प्यानलहरू यहाँ हाल्छ -->
+                </div>
+            </div>
+
+            <!-- WALLET TAB -->
+            <div class="tab-pane fade" id="tab-wallet">
+                <div class="glass-card p-4 p-md-5 text-center col-lg-8 mx-auto">
+                    <div class="text-success fs-1 mb-2"><i class="fa-solid fa-qrcode"></i></div>
+                    <h4 class="fw-bold text-white">Top Up Your Balance</h4>
+                    <p class="text-muted small">eSewa वा Khalti मा QR स्क्यान गरी पैसा पठाउनुहोस् र तल आफ्नो ट्रान्जेक्सन अमाउन्ट राखी रिक्वेस्ट पठाउनुहोस्।</p>
+                    
+                    <div class="my-4">
+                        <input type="number" id="deposit-amt" class="form-control bg-black text-white text-center fs-4 border-secondary py-2" placeholder="Enter Amount in NPR">
+                    </div>
+                    <div class="d-flex justify-content-center gap-3">
+                        <button class="btn btn-success px-4 py-2 fw-bold flex-grow-1" onclick="requestDeposit('esewa')"><i class="fa-solid fa-circle-check"></i> Request eSewa Topup</button>
+                        <button class="btn btn-primary px-4 py-2 fw-bold flex-grow-1" onclick="requestDeposit('khalti')"><i class="fa-solid fa-circle-check"></i> Request Khalti Topup</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MY KEYS TAB -->
+            <div class="tab-pane fade" id="tab-keys">
+                <h5 class="fw-bold text-info mb-3"><i class="fa-solid fa-key"></i> Purchased License Keys</h5>
+                <div id="my-keys-list" class="vstack gap-3">
+                    <!-- JS ले कीहरू यहाँ राख्छ -->
+                </div>
+            </div>
+
+            <!-- RESELLER HUB -->
+            <div class="tab-pane fade" id="tab-reseller">
+                <div class="glass-card p-4 p-md-5 text-center col-lg-8 mx-auto">
+                    <div class="text-warning fs-1 mb-2"><i class="fa-solid fa-crown"></i></div>
+                    <h4 class="fw-bold text-white">Reseller Partnership Hub</h4>
+                    <p class="text-muted mt-2">सस्तो होलसेल मूल्यमा प्यानलहरू खरिद गर्नुहोस् र आफ्नै कस्टमरहरूलाई बिक्री गरेर राम्रो मुनाफा कमाउनुहोस्।</p>
+                    <a href="https://t.me/YourAdminUsername" target="_blank" class="btn btn-info px-5 py-2 fw-bold text-dark mt-3"><i class="fa-brands fa-telegram"></i> Contact Admin on Telegram</a>
+                </div>
+            </div>
+
+            <!-- ADMIN TAB -->
+            <div class="tab-pane fade" id="tab-admin">
+                <div class="glass-card p-4">
+                    <h4 class="fw-bold text-warning mb-3"><i class="fa-solid fa-screwdriver-wrench"></i> Admin Deposit Approvals</h4>
+                    <div id="admin-deposits-list" class="vstack gap-2">
+                        <!-- JS ले एडमिन डिपोजिटहरू देखाउँछ -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const ADMIN_ID = 123456789; // आफ्नो टेलिग्राम एडमिन आईडी यहाँ राख्नु
+
+        const products = [
+            { id: 'pubg', name: 'PUBG Mobile VIP Panel', plans: [{dur: '1 Day', price: 150}, {dur: '7 Days', price: 700}, {dur: '30 Days', price: 1800}] },
+            { id: 'ff', name: 'Free Fire Headshot Mod', plans: [{dur: '1 Day', price: 120}, {dur: '7 Days', price: 600}, {dur: '30 Days', price: 1500}] },
+            { id: 'esp', name: 'Global ESP & Bypass', plans: [{dur: '1 Day', price: 200}, {dur: '7 Days', price: 900}, {dur: '30 Days', price: 2200}] }
+        ];
+
+        let db = JSON.parse(localStorage.getItem('xettry_pro_db')) || {
+            user: null,
+            balance: 0,
+            keys: [],
+        };
+
+        window.onload = function() {
+            if(db.user) {
+                showView('dashboard');
+                renderDashboard();
+            } else {
+                showView('login');
+            }
+        };
+
+        function showView(target) {
+            // सबै सेक्सनहरू कडा रूपमा लुकाउने
+            document.querySelectorAll('.app-section').forEach(el => {
+                el.classList.remove('active-section', 'active-flex');
+            });
+
+            // मागेको सेक्सन मात्र देखाउने
+            if(target === 'login') {
+                document.getElementById('view-login').classList.add('active-flex');
+            } else if(target === 'dashboard') {
+                document.getElementById('view-dashboard').classList.add('active-section');
+            }
+        }
+
+        function processLogin() {
+            let name = document.getElementById('input-username').value.trim();
+            let id = parseInt(document.getElementById('input-userid').value);
+
+            if(!name || !id) {
+                alert('कृपया आफ्नो नाम र टेलिग्राम युजर आईडी (Number) सहि तरिकाले भर्नुहोस्!');
+                return;
+            }
+
+            db.user = { name, id };
+            if(id === ADMIN_ID) db.balance = 10000;
+            localStorage.setItem('xettry_pro_db', JSON.stringify(db));
+
+            showView('dashboard');
+            renderDashboard();
+        }
+
+        function renderDashboard() {
+            let isAdmin = db.user.id === ADMIN_ID;
+
+            document.getElementById('display-username').innerText = db.user.name;
+            document.getElementById('display-balance').innerText = `NPR ${db.balance}`;
+            if(isAdmin) document.getElementById('admin-nav-btn').style.display = 'block';
+
+            let shopHtml = '';
+            products.forEach(p => {
+                shopHtml += `<div class="col-md-6"><div class="glass-card p-3 h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="fw-bold text-white mb-2"><i class="fa-solid fa-gamepad text-info me-2"></i>${p.name}</h5>
+                        <hr class="border-secondary my-2">
+                    </div>
+                    <div class="vstack gap-2">`;
+                p.plans.forEach(pl => {
+                    shopHtml += `<div class="d-flex justify-content-between align-items-center bg-black bg-opacity-50 p-2 rounded border border-secondary">
+                        <span class="fw-semibold text-light">${pl.dur}</span>
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="text-success fw-bold">NPR ${pl.price}</span>
+                            <button class="btn btn-outline-info btn-sm px-3 fw-bold" onclick="buyItem('${p.name}', '${pl.dur}', ${pl.price})">Buy</button>
+                        </div>
+                    </div>`;
+                });
+                shopHtml += `</div></div></div>`;
+            });
+            document.getElementById('shop-products').innerHTML = shopHtml;
+
+            let keysHtml = '';
+            if(!db.keys || db.keys.length === 0) {
+                keysHtml = `<div class="glass-card p-4 text-center text-muted">कुनै पनि कीहरू भेटिएनन्। प्यानल खरिद गरेपछि तपाईंको लाइसेन्स की यहाँ देखिनेछ।</div>`;
+            } else {
+                db.keys.forEach(k => {
+                    keysHtml += `<div class="glass-card p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="fw-bold text-info">${k.product} <span class="badge bg-dark border border-secondary text-light ms-2">${k.duration}</span></span>
+                            <small class="text-muted"><i class="fa-regular fa-calendar me-1"></i>${k.date}</small>
+                        </div>
+                        <div class="p-2 bg-black rounded border border-secondary text-info d-flex justify-content-between align-items-center">
+                            <code class="user-select-all fs-6 text-warning">${k.key}</code>
+                            <span class="badge bg-success">Active Key</span>
+                        </div>
+                    </div>`;
+                });
+            }
+            document.getElementById('my-keys-list').innerHTML = keysHtml;
+
+            if(isAdmin) {
+                let depHtml = '';
+                let pending = (db.deposits || []).filter(d => d.status === 'PENDING');
+                if(pending.length === 0) {
+                    depHtml = '<p class="text-muted text-center py-3">कुनै पनि पेन्डिङ डिपोजिट रिक्वेस्ट छैन।</p>';
+                } else {
+                    pending.forEach(d => {
+                        depHtml += `<div class="d-flex justify-content-between align-items-center bg-black bg-opacity-50 p-3 rounded border border-secondary">
+                            <div>
+                                <span class="fw-bold text-white">${d.username}</span> 
+                                <span class="badge bg-info text-dark ms-2">${d.method.toUpperCase()}</span>
+                                <div class="text-success fw-bold mt-1">Amount: NPR ${d.amount}</div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-success btn-sm px-3 fw-bold" onclick="approveDep(${d.id})"><i class="fa-solid fa-check"></i> Approve</button>
+                                <button class="btn btn-danger btn-sm px-3 fw-bold" onclick="rejectDep(${d.id})"><i class="fa-solid fa-xmark"></i> Reject</button>
+                            </div>
+                        </div>`;
+                    });
+                }
+                document.getElementById('admin-deposits-list').innerHTML = depHtml;
+            }
+        }
+
+        function buyItem(product, duration, price) {
+            if(db.balance < price) {
+                alert('❌ ब्यालेन्स अपुग्दो छ! कृपया पहिले Wallet मा गएर डिपोजिट गर्नुहोस्।');
+                return;
+            }
+            if(confirm(`${product} (${duration}) को लागि NPR ${price} तिर्न कन्फर्म गर्नुहुन्छ?`)) {
+                db.balance -= price;
+                let randomKey = 'XETTRY-' + Math.random().toString(36).substring(2, 8).toUpperCase() + '-' + Math.floor(Math.random()*9000+1000);
+                if(!db.keys) db.keys = [];
+                db.keys.unshift({ product, duration, key: randomKey, date: new Date().toLocaleDateString() });
+                localStorage.setItem('xettry_pro_db', JSON.stringify(db));
+                alert('🎉 सफल! तपाईंको लाइसेन्स कि जेनरेट भयो, "My Keys" ट्याबमा हेर्नुहोस्।');
+                renderDashboard();
+            }
+        }
+
+        function requestDeposit(method) {
+            let amt = parseFloat(document.getElementById('deposit-amt').value);
+            if(!amt || amt <= 0) { alert('कृपया सहि रकम (Amount) हाल्नुहोस्!'); return; }
+            
+            if(!db.deposits) db.deposits = [];
+            db.deposits.push({ id: Date.now(), username: db.user.name, amount: amt, method: method, status: 'PENDING' });
+            localStorage.setItem('xettry_pro_db', JSON.stringify(db));
+            alert('✅ डिपोजिट रिक्वेस्ट एडमिनकहाँ पठाइयो! एडमिनले अप्रुभ गरेपछि तपाईंको ब्यालेन्स जोडिन्छ।');
+            document.getElementById('deposit-amt').value = '';
+            renderDashboard();
+        }
+
+        function approveDep(id) {
+            let dep = db.deposits.find(d => d.id === id);
+            if(dep) {
+                dep.status = 'APPROVED';
+                db.balance += dep.amount;
+                localStorage.setItem('xettry_pro_db', JSON.stringify(db));
+                renderDashboard();
+                alert('डिपोजिट सफलतापूर्वक अप्रुभ गरियो!');
+            }
+        }
+
+        function rejectDep(id) {
+            let dep = db.deposits.find(d => d.id === id);
+            if(dep) {
+                dep.status = 'REJECTED';
+                localStorage.setItem('xettry_pro_db', JSON.stringify(db));
+                renderDashboard();
+                alert('डिपोजिट अस्वीकार गरियो!');
+            }
+        }
+
+        function logout() {
+            localStorage.clear();
+            location.reload();
+        }
+    </script>
+</body>
+</html>
                     <div class="display-5 text-info mb-2"><i class="fa-solid fa-shield-halved"></i></div>
                     <h3 class="fw-bold text-white">Xettry Store</h3>
                     <p class="text-muted small">Secure Panel & Key Distribution Hub</p>
