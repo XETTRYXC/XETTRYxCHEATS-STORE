@@ -6,35 +6,557 @@
 <title>XETTRY x CHEATS</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
-}
-
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
 body{
-    background:#05070d;
+    background:#080808;
     color:#fff;
     min-height:100vh;
 }
+.container{
+    width:92%;
+    max-width:420px;
+    margin:auto;
+}
+.logo{
+    width:105px;
+    height:105px;
+    border-radius:50%;
+    object-fit:cover;
+    display:block;
+    margin:35px auto 15px;
+    border:3px solid #fff;
+    box-shadow:0 0 25px rgba(255,255,255,.25);
+}
+.title{
+    text-align:center;
+    font-size:26px;
+    font-weight:800;
+    margin-bottom:25px;
+}
+.card{
+    background:#111;
+    border:1px solid #292929;
+    border-radius:18px;
+    padding:22px;
+    margin-top:18px;
+}
+input,select,button{
+    width:100%;
+    padding:14px;
+    margin-top:12px;
+    border-radius:10px;
+    border:1px solid #333;
+    background:#181818;
+    color:#fff;
+    outline:none;
+}
+button{
+    background:#fff;
+    color:#000;
+    font-weight:800;
+    cursor:pointer;
+}
+button:hover{opacity:.85}
+.small{
+    text-align:center;
+    color:#aaa;
+    font-size:13px;
+    margin-top:15px;
+}
+.link{
+    color:#fff;
+    text-decoration:underline;
+    cursor:pointer;
+}
+.error{
+    color:#ff5555;
+    text-align:center;
+    margin-top:12px;
+    font-size:13px;
+}
+.success{
+    color:#55ff99;
+    text-align:center;
+    margin-top:12px;
+    font-size:13px;
+}
+.hidden{display:none!important}
 
-/* LOGIN SCREEN */
-
-#loginPage{
-    min-height:100vh;
+.balance{
+    background:#151515;
+    border-radius:15px;
+    padding:18px;
+    margin-top:20px;
+    text-align:center;
+}
+.balance span{
+    display:block;
+    font-size:27px;
+    font-weight:bold;
+    margin-top:6px;
+}
+.menu{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:18px;
+}
+.menu button{
+    margin:0;
+}
+.panel{
+    background:#151515;
+    padding:17px;
+    border-radius:14px;
+    margin-top:12px;
+    cursor:pointer;
+}
+.panel h3{margin-bottom:5px}
+.panel p{color:#999;font-size:13px}
+.price{
     display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:
-    radial-gradient(circle at 50% 20%,#063b72 0%,#05070d 50%);
+    justify-content:space-between;
+    padding:13px 0;
+    border-bottom:1px solid #292929;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- AUTH -->
+<section id="auth">
+
+<img src="6625.png" class="logo" onerror="this.style.display='none'">
+
+<h1 class="title">XETTRY x CHEATS</h1>
+
+<!-- CREATE ACCOUNT -->
+<div class="card" id="registerBox">
+<h2>Create Account</h2>
+
+<input id="regEmail" type="email" placeholder="Email">
+<button onclick="sendCode()">SEND VERIFICATION CODE</button>
+
+<div id="codeArea" class="hidden">
+<input id="verifyCode" placeholder="Verification Code">
+<button onclick="verifyEmail()">VERIFY EMAIL</button>
+</div>
+
+<div id="userArea" class="hidden">
+<input id="regUsername" placeholder="Username">
+<input id="regPassword" type="password" placeholder="Password">
+<button onclick="createAccount()">CREATE ACCOUNT</button>
+</div>
+
+<p id="regMsg"></p>
+
+<div class="small">
+Already have an account?
+<span class="link" onclick="showLogin()">Login</span>
+</div>
+</div>
+
+
+<!-- LOGIN -->
+<div class="card hidden" id="loginBox">
+<h2>Login</h2>
+
+<input id="loginUser" placeholder="Username">
+<input id="loginPass" type="password" placeholder="Password">
+
+<button onclick="login()">LOGIN</button>
+
+<p id="loginMsg"></p>
+
+<div class="small">
+Don't have an account?
+<span class="link" onclick="showRegister()">Create Account</span>
+</div>
+</div>
+
+</section>
+
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="hidden">
+
+<img src="6625.png" class="logo" onerror="this.style.display='none'">
+
+<h1 class="title">XETTRY x CHEATS</h1>
+
+<div class="card">
+
+<h2>Welcome, <span id="welcomeUser"></span></h2>
+
+<div class="balance">
+Current Balance
+<span>NPR <b id="balance">0</b></span>
+</div>
+
+<div class="menu">
+<button onclick="showAddBalance()">ADD BALANCE</button>
+<button onclick="showHistory()">HISTORY</button>
+</div>
+
+</div>
+
+
+<!-- ADD BALANCE -->
+<div class="card hidden" id="addBalanceBox">
+<h2>Add Balance</h2>
+
+<input id="amount" type="number" placeholder="Amount (NPR)">
+
+<select id="method">
+<option value="">Select Payment Method</option>
+<option>Bank Transfer</option>
+<option>eSewa</option>
+<option>Khalti</option>
+</select>
+
+<input id="reference" placeholder="Payment Reference">
+
+<button onclick="submitBalance()">SUBMIT REQUEST</button>
+
+<p id="balanceMsg"></p>
+</div>
+
+
+<!-- PANELS -->
+<div class="card" id="panelBox">
+<h2>Available Panels</h2>
+
+<div class="panel" onclick="openPanel('Premium Panel')">
+<h3>Premium Panel</h3>
+<p>View Price List</p>
+</div>
+
+<div class="panel" onclick="openPanel('Standard Panel')">
+<h3>Standard Panel</h3>
+<p>View Price List</p>
+</div>
+
+</div>
+
+
+<!-- PRICE -->
+<div class="card hidden" id="priceBox">
+<h2 id="panelTitle"></h2>
+<div id="prices"></div>
+
+<button onclick="backPanels()">BACK TO PANELS</button>
+</div>
+
+
+<!-- HISTORY -->
+<div class="card hidden" id="historyBox">
+<h2>Transaction History</h2>
+<div id="history"></div>
+</div>
+
+<button onclick="logout()">LOGOUT</button>
+
+</section>
+
+</div>
+
+
+<script>
+
+let verificationCode="";
+let verified=false;
+
+/* DEMO EMAIL VERIFICATION */
+function sendCode(){
+
+    const email=document.getElementById("regEmail").value;
+
+    if(!email){
+        msg("regMsg","Enter your email","error");
+        return;
+    }
+
+    verificationCode=Math.floor(100000+Math.random()*900000).toString();
+
+    document.getElementById("codeArea").classList.remove("hidden");
+
+    /*
+      DEMO ONLY:
+      Real email sending requires backend/email service.
+    */
+    alert("DEMO VERIFICATION CODE: "+verificationCode);
+
+    msg("regMsg","Verification code sent (demo mode).","success");
 }
 
-.login-box{
-    width:100%;
-    max-width:390px;
-    padding:30px 25px;
+
+function verifyEmail(){
+
+    const code=document.getElementById("verifyCode").value;
+
+    if(code===verificationCode){
+
+        verified=true;
+
+        document.getElementById("userArea")
+        .classList.remove("hidden");
+
+        msg("regMsg","Email verified successfully.","success");
+
+    }else{
+        msg("regMsg","Invalid verification code.","error");
+    }
+}
+
+
+function createAccount(){
+
+    if(!verified){
+        msg("regMsg","Verify your email first.","error");
+        return;
+    }
+
+    const email=document.getElementById("regEmail").value;
+    const username=document.getElementById("regUsername").value;
+    const password=document.getElementById("regPassword").value;
+
+    if(!username || !password){
+        msg("regMsg","Enter username and password.","error");
+        return;
+    }
+
+    localStorage.setItem("xettryAccount",
+        JSON.stringify({
+            email:email,
+            username:username,
+            password:password,
+            balance:0,
+            history:[]
+        })
+    );
+
+    alert("Account created successfully!");
+
+    showLogin();
+}
+
+
+function login(){
+
+    const account=JSON.parse(
+        localStorage.getItem("xettryAccount")
+    );
+
+    const username=document.getElementById("loginUser").value;
+    const password=document.getElementById("loginPass").value;
+
+    if(!account){
+        msg("loginMsg","Create an account first.","error");
+        return;
+    }
+
+    if(
+        username===account.username &&
+        password===account.password
+    ){
+
+        document.getElementById("auth")
+        .classList.add("hidden");
+
+        document.getElementById("dashboard")
+        .classList.remove("hidden");
+
+        document.getElementById("welcomeUser")
+        .innerText=account.username;
+
+        updateBalance();
+
+    }else{
+        msg("loginMsg","Wrong username or password.","error");
+    }
+}
+
+
+function showLogin(){
+    document.getElementById("registerBox")
+    .classList.add("hidden");
+
+    document.getElementById("loginBox")
+    .classList.remove("hidden");
+}
+
+
+function showRegister(){
+    document.getElementById("loginBox")
+    .classList.add("hidden");
+
+    document.getElementById("registerBox")
+    .classList.remove("hidden");
+}
+
+
+function showAddBalance(){
+    document.getElementById("addBalanceBox")
+    .classList.remove("hidden");
+}
+
+
+function submitBalance(){
+
+    const amount=Number(
+        document.getElementById("amount").value
+    );
+
+    const method=document.getElementById("method").value;
+    const reference=document.getElementById("reference").value;
+
+    if(!amount || amount<=0 || !method || !reference){
+        msg("balanceMsg","Fill all details.","error");
+        return;
+    }
+
+    let account=JSON.parse(
+        localStorage.getItem("xettryAccount")
+    );
+
+    account.history.push({
+        type:"ADD BALANCE REQUEST",
+        amount:amount,
+        method:method,
+        reference:reference,
+        status:"PENDING",
+        date:new Date().toLocaleString()
+    });
+
+    localStorage.setItem(
+        "xettryAccount",
+        JSON.stringify(account)
+    );
+
+    msg(
+        "balanceMsg",
+        "Balance request submitted. Waiting for approval.",
+        "success"
+    );
+
+    document.getElementById("amount").value="";
+    document.getElementById("reference").value="";
+}
+
+
+function updateBalance(){
+
+    const account=JSON.parse(
+        localStorage.getItem("xettryAccount")
+    );
+
+    document.getElementById("balance")
+    .innerText=account.balance;
+}
+
+
+function showHistory(){
+
+    const box=document.getElementById("historyBox");
+
+    box.classList.remove("hidden");
+
+    const account=JSON.parse(
+        localStorage.getItem("xettryAccount")
+    );
+
+    const history=document.getElementById("history");
+
+    if(!account.history.length){
+        history.innerHTML="<p>No transactions yet.</p>";
+        return;
+    }
+
+    history.innerHTML=account.history.map(x=>`
+        <div class="price">
+            <div>
+                <b>${x.type}</b><br>
+                <small>${x.date}</small>
+            </div>
+            <div>
+                NPR ${x.amount}<br>
+                ${x.status}
+            </div>
+        </div>
+    `).join("");
+}
+
+
+function openPanel(name){
+
+    document.getElementById("panelBox")
+    .classList.add("hidden");
+
+    document.getElementById("priceBox")
+    .classList.remove("hidden");
+
+    document.getElementById("panelTitle")
+    .innerText=name;
+
+    let prices="";
+
+    if(name==="Premium Panel"){
+        prices=`
+        <div class="price"><span>1 Day</span><b>NPR 250</b></div>
+        <div class="price"><span>7 Days</span><b>NPR 780</b></div>
+        <div class="price"><span>30 Days</span><b>NPR 1400</b></div>
+        `;
+    }
+
+    if(name==="Standard Panel"){
+        prices=`
+        <div class="price"><span>1 Day</span><b>NPR 150</b></div>
+        <div class="price"><span>7 Days</span><b>NPR 550</b></div>
+        <div class="price"><span>30 Days</span><b>NPR 950</b></div>
+        `;
+    }
+
+    document.getElementById("prices").innerHTML=prices;
+}
+
+
+function backPanels(){
+
+    document.getElementById("priceBox")
+    .classList.add("hidden");
+
+    document.getElementById("panelBox")
+    .classList.remove("hidden");
+}
+
+
+function logout(){
+
+    document.getElementById("dashboard")
+    .classList.add("hidden");
+
+    document.getElementById("auth")
+    .classList.remove("hidden");
+
+    showLogin();
+}
+
+
+function msg(id,text,type){
+
+    const el=document.getElementById(id);
+
+    el.className=type;
+    el.innerText=text;
+}
+
+</script>
+
+</body>
+</html>    padding:30px 25px;
     background:rgba(8,14,24,.95);
     border:1px solid #1265a5;
     border-radius:20px;
@@ -2211,3 +2733,4 @@ uccess fw-bold me-3">NPR ${pl.price}</span>
 
 </body>
 </html>
+                
