@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>XETTRY x CHEATS</title>
 
 <style>
@@ -11,20 +10,108 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
     background:#05070d;
-    color:white;
+    color:#fff;
+    min-height:100vh;
 }
 
-/* HEADER */
+/* LOGIN SCREEN */
+
+#loginPage{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:
+    radial-gradient(circle at 50% 20%,#063b72 0%,#05070d 50%);
+}
+
+.login-box{
+    width:100%;
+    max-width:390px;
+    padding:30px 25px;
+    background:rgba(8,14,24,.95);
+    border:1px solid #1265a5;
+    border-radius:20px;
+    box-shadow:0 0 40px #008cff33;
+    text-align:center;
+}
+
+.login-logo{
+    width:115px;
+    height:115px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid #009dff;
+    box-shadow:0 0 30px #008cff88;
+}
+
+.login-box h1{
+    margin-top:18px;
+    font-size:28px;
+}
+
+.login-box h1 span{
+    color:#00aaff;
+}
+
+.subtitle{
+    color:#8297b1;
+    margin:8px 0 25px;
+    font-size:14px;
+}
+
+.input{
+    width:100%;
+    padding:14px;
+    margin:7px 0;
+    border-radius:10px;
+    border:1px solid #1a3e62;
+    background:#070d16;
+    color:white;
+    outline:none;
+}
+
+.input:focus{
+    border-color:#009dff;
+}
+
+.login-btn{
+    width:100%;
+    padding:14px;
+    margin-top:12px;
+    border:0;
+    border-radius:10px;
+    background:#008cff;
+    color:white;
+    font-weight:bold;
+    font-size:15px;
+    cursor:pointer;
+    box-shadow:0 0 20px #008cff44;
+}
+
+.error{
+    color:#ff5252;
+    margin-top:12px;
+    font-size:13px;
+}
+
+/* DASHBOARD */
+
+#dashboard{
+    display:none;
+}
+
 header{
     position:sticky;
     top:0;
-    z-index:999;
-    background:rgba(5,7,13,.95);
+    z-index:99;
+    background:rgba(5,7,13,.96);
     border-bottom:1px solid #164b80;
     backdrop-filter:blur(10px);
 }
@@ -32,9 +119,464 @@ header{
 .navbar{
     max-width:1100px;
     margin:auto;
-    padding:12px 18px;
+    padding:11px 16px;
     display:flex;
     align-items:center;
+    justify-content:space-between;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.brand img{
+    width:43px;
+    height:43px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.brand h2{
+    font-size:16px;
+}
+
+.brand span{
+    color:#00aaff;
+}
+
+.logout{
+    padding:9px 14px;
+    border:1px solid #234c70;
+    border-radius:8px;
+    background:#0a111c;
+    color:#fff;
+    cursor:pointer;
+}
+
+/* DASHBOARD */
+
+.dashboard{
+    max-width:1100px;
+    margin:auto;
+    padding:30px 17px;
+}
+
+.welcome{
+    padding:25px;
+    border-radius:18px;
+    border:1px solid #164b80;
+    background:
+    linear-gradient(135deg,#071a30,#080c14);
+    margin-bottom:25px;
+}
+
+.welcome h1{
+    font-size:30px;
+}
+
+.welcome p{
+    color:#8da2ba;
+    margin-top:8px;
+}
+
+.title{
+    text-align:center;
+    margin:25px 0;
+    font-size:25px;
+}
+
+.panels{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(230px,1fr));
+    gap:17px;
+}
+
+.panel{
+    background:linear-gradient(145deg,#0c1420,#060a11);
+    border:1px solid #153d63;
+    border-radius:16px;
+    padding:21px;
+    transition:.25s;
+}
+
+.panel:hover{
+    transform:translateY(-5px);
+    border-color:#009dff;
+    box-shadow:0 0 25px #008cff33;
+}
+
+.panel-icon{
+    font-size:32px;
+    margin-bottom:13px;
+}
+
+.panel h3{
+    font-size:20px;
+}
+
+.panel p{
+    color:#8498b1;
+    font-size:13px;
+    margin-top:7px;
+    line-height:1.5;
+}
+
+.panel-btn{
+    display:block;
+    text-align:center;
+    margin-top:17px;
+    padding:11px;
+    background:#008cff;
+    color:#fff;
+    text-decoration:none;
+    border-radius:9px;
+    font-weight:bold;
+}
+
+.status{
+    display:inline-block;
+    margin-top:12px;
+    padding:5px 9px;
+    border-radius:20px;
+    background:#07351f;
+    color:#35e99a;
+    font-size:11px;
+}
+
+footer{
+    text-align:center;
+    padding:25px;
+    color:#60758e;
+    font-size:12px;
+    border-top:1px solid #12283f;
+    margin-top:40px;
+}
+
+@media(max-width:600px){
+
+    .navbar{
+        padding:10px;
+    }
+
+    .brand h2{
+        font-size:14px;
+    }
+
+    .dashboard{
+        padding:20px 12px;
+    }
+
+    .welcome h1{
+        font-size:24px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+
+<!-- ================= LOGIN ================= -->
+
+<section id="loginPage">
+
+<div class="login-box">
+
+<img src="6625.png" class="login-logo">
+
+<h1>
+XETTRY <span>x</span> CHEATS
+</h1>
+
+<p class="subtitle">
+Secure Member Login
+</p>
+
+<input
+    type="text"
+    id="username"
+    class="input"
+    placeholder="Username"
+>
+
+<input
+    type="password"
+    id="password"
+    class="input"
+    placeholder="Password"
+>
+
+<button class="login-btn" onclick="login()">
+LOGIN
+</button>
+
+<p id="error" class="error"></p>
+
+</div>
+
+</section>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section id="dashboard">
+
+<header>
+
+<div class="navbar">
+
+<div class="brand">
+
+<img src="6625.png">
+
+<h2>
+XETTRY <span>x</span> CHEATS
+</h2>
+
+</div>
+
+<button class="logout" onclick="logout()">
+LOGOUT
+</button>
+
+</div>
+
+</header>
+
+
+<div class="dashboard">
+
+<div class="welcome">
+
+<h1>
+👋 Welcome, <span id="userName"></span>
+</h1>
+
+<p>
+Welcome to XETTRY x CHEATS private dashboard.
+</p>
+
+</div>
+
+
+<h2 class="title">
+🔥 AVAILABLE PANELS
+</h2>
+
+
+<div class="panels">
+
+
+<!-- PANEL 1 -->
+
+<div class="panel">
+
+<div class="panel-icon">
+🎮
+</div>
+
+<h3>
+GEN-X PANEL
+</h3>
+
+<p>
+Premium gaming panel access.
+</p>
+
+<span class="status">
+● ONLINE
+</span>
+
+<a href="#" class="panel-btn">
+OPEN PANEL
+</a>
+
+</div>
+
+
+<!-- PANEL 2 -->
+
+<div class="panel">
+
+<div class="panel-icon">
+⚡
+</div>
+
+<h3>
+DRIP PANEL
+</h3>
+
+<p>
+Premium digital gaming service.
+</p>
+
+<span class="status">
+● ONLINE
+</span>
+
+<a href="#" class="panel-btn">
+OPEN PANEL
+</a>
+
+</div>
+
+
+<!-- PANEL 3 -->
+
+<div class="panel">
+
+<div class="panel-icon">
+👑
+</div>
+
+<h3>
+DOLPHIN PANEL
+</h3>
+
+<p>
+VIP panel access.
+</p>
+
+<span class="status">
+● ONLINE
+</span>
+
+<a href="#" class="panel-btn">
+OPEN PANEL
+</a>
+
+</div>
+
+
+<!-- PANEL 4 -->
+
+<div class="panel">
+
+<div class="panel-icon">
+💎
+</div>
+
+<h3>
+VIP PANEL
+</h3>
+
+<p>
+Exclusive premium member panel.
+</p>
+
+<span class="status">
+● ONLINE
+</span>
+
+<a href="#" class="panel-btn">
+OPEN PANEL
+</a>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<footer>
+© 2026 XETTRY x CHEATS • Private Dashboard
+</footer>
+
+</section>
+
+
+<script>
+
+/* DEMO LOGIN
+   Change these two values
+   to your own demo username/password.
+*/
+
+const DEMO_USERNAME = "xettry";
+const DEMO_PASSWORD = "1234";
+
+
+function login(){
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const error =
+        document.getElementById("error");
+
+
+    if(
+        username === DEMO_USERNAME &&
+        password === DEMO_PASSWORD
+    ){
+
+        localStorage.setItem(
+            "xettryLogin",
+            username
+        );
+
+        showDashboard(username);
+
+    }else{
+
+        error.innerText =
+        "❌ Invalid username or password";
+
+    }
+
+}
+
+
+function showDashboard(username){
+
+    document.getElementById("loginPage")
+    .style.display="none";
+
+    document.getElementById("dashboard")
+    .style.display="block";
+
+    document.getElementById("userName")
+    .innerText=username;
+
+}
+
+
+function logout(){
+
+    localStorage.removeItem("xettryLogin");
+
+    location.reload();
+
+}
+
+
+/* KEEP LOGIN */
+
+window.onload=function(){
+
+    const saved =
+        localStorage.getItem("xettryLogin");
+
+    if(saved){
+
+        showDashboard(saved);
+
+    }
+
+};
+
+</script>
+
+</body>
+</html>    align-items:center;
     justify-content:space-between;
 }
 
