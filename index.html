@@ -18,15 +18,19 @@
         .nav-pills .nav-link { color: #9ca3af; font-weight: 600; border-radius: 10px; transition: all 0.3s ease; }
         .nav-pills .nav-link.active { background: linear-gradient(135deg, #0284c7, #0ea5e9); color: #fff; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4); }
         .stat-card { background: linear-gradient(145deg, #111827, #0f172a); border: 1px solid var(--border-color); border-radius: 12px; }
-        .page-view { display: none; }
-        .page-view.active { display: block; }
+        
+        /* Strict View Control: लुकाउने र देखाउने सिस्टम */
+        .app-view { display: none !important; }
+        .app-view.show-view { display: block !important; }
+        .app-view.flex-view { display: flex !important; }
+
         .form-control:focus, .form-select:focus { background-color: #000; color: #fff; border-color: #0ea5e9; box-shadow: 0 0 0 0.25rem rgba(14, 165, 233, 0.25); }
     </style>
 </head>
 <body class="py-4 px-2">
 
-    <!-- ================= 1. LOGIN SCREEN ================= -->
-    <div id="view-login" class="page-view container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+    <!-- ================= 1. LOGIN SCREEN (सुरुमा मात्र देखिने) ================= -->
+    <div id="view-login" class="app-view flex-view container justify-content-center align-items-center" style="min-height: 90vh;">
         <div class="col-md-5 col-lg-4">
             <div class="glass-card p-4 p-md-5">
                 <div class="text-center mb-4">
@@ -53,8 +57,9 @@
         </div>
     </div>
 
-    <!-- ================= 2. MAIN DASHBOARD ================= -->
-    <div id="view-dashboard" class="page-view container" style="max-width: 1000px;">
+
+    <!-- ================= 2. MAIN DASHBOARD (लगइन गरेपछि मात्र खुल्ने) ================= -->
+    <div id="view-dashboard" class="app-view container" style="max-width: 1000px;">
         
         <!-- TOP HEADER / PROFILE BAR -->
         <div class="glass-card p-4 mb-4">
@@ -159,6 +164,186 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const ADMIN_ID = 123456789; // आफ्नो टेलिग्राम एडमिन आईडी यहाँ राख्नु
+
+        const products = [
+            { id: 'pubg', name: 'PUBG Mobile VIP Panel', plans: [{dur: '1 Day', price: 150}, {dur: '7 Days', price: 700}, {dur: '30 Days', price: 1800}] },
+            { id: 'ff', name: 'Free Fire Headshot Mod', plans: [{dur: '1 Day', price: 120}, {dur: '7 Days', price: 600}, {dur: '30 Days', price: 1500}] },
+            { id: 'esp', name: 'Global ESP & Bypass', plans: [{dur: '1 Day', price: 200}, {dur: '7 Days', price: 900}, {dur: '30 Days', price: 2200}] }
+        ];
+
+        let db = JSON.parse(localStorage.getItem('xettry_pro_db')) || {
+            user: null,
+            balance: 0,
+            keys: [],
+            deposits: []
+        };
+
+        window.onload = function() {
+            if(db.user) {
+                switchView('dashboard');
+                renderDashboard();
+            } else {
+                switchView('login');
+            }
+        };
+
+        function switchView(viewName) {
+            // सबै पेजहरू लुकाउने
+            document.querySelectorAll('.app-view').forEach(el => {
+                el.classList.remove('show-view', 'flex-view');
+            });
+
+            // सोधिएको पेज मात्र देखाउने
+            if(viewName === 'login') {
+                document.getElementById('view-login').classList.add('flex-view');
+            } else if(viewName === 'dashboard') {
+                document.getElementById('view-dashboard').classList.add('show-view');
+            }
+        }
+
+        function processLogin() {
+            let name = document.getElementById('input-username').value.trim();
+            let id = parseInt(document.getElementById('input-userid').value);
+
+            if(!name || !id) {
+                alert('कृपया आफ्नो नाम र टेलिग्राम युजर आईडी (Number) सहि तरिकाले भर्नुहोस्!');
+                return;
+            }
+
+            db.user = { name, id };
+            if(id === ADMIN_ID) db.balance = 10000;
+            localStorage.setItem('xettry_pro_db', JSON.stringify(db));
+
+            switchView('dashboard');
+            renderDashboard();
+        }
+
+        function renderDashboard() {
+            let isAdmin = db.user.id === ADMIN_ID;
+
+            document.getElementById('display-username').innerText = db.user.name;
+            document.getElementById('display-balance').innerText = `NPR ${db.balance}`;
+            if(isAdmin) document.getElementById('admin-nav-btn').style.display = 'block';
+
+            let shopHtml = '';
+            products.forEach(p => {
+                shopHtml += `<div class="col-md-6"><div class="glass-card p-3 h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="fw-bold text-white mb-2"><i class="fa-solid fa-gamepad text-info me-2"></i>${p.name}</h5>
+                        <hr class="border-secondary my-2">
+                    </div>
+                    <div class="vstack gap-2">`;
+                p.plans.forEach(pl => {
+                    shopHtml += `<div class="d-flex justify-content-between align-items-center bg-black bg-opacity-50 p-2 rounded border border-secondary">
+                        <span class="fw-semibold text-light">${pl.dur}</span>
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="text-success fw-bold">NPR ${pl.price}</span>
+                            <button class="btn btn-outline-info btn-sm px-3 fw-bold" onclick="buyItem('${p.name}', '${pl.dur}', ${pl.price})">Buy</button>
+                        </div>
+                    </div>`;
+                });
+                shopHtml += `</div></div></div>`;
+            });
+            document.getElementById('shop-products').innerHTML = shopHtml;
+
+            let keysHtml = '';
+            if(db.keys.length === 0) {
+                keysHtml = `<div class="glass-card p-4 text-center text-muted">कुनै पनि कीहरू भेटिएनन्। प्यानल खरिद गरेपछि तपाईंको लाइसेन्स की यहाँ देखिनेछ।</div>`;
+            } else {
+                db.keys.forEach(k => {
+                    keysHtml += `<div class="glass-card p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="fw-bold text-info">${k.product} <span class="badge bg-dark border border-secondary text-light ms-2">${k.duration}</span></span>
+                            <small class="text-muted"><i class="fa-regular fa-calendar me-1"></i>${k.date}</small>
+                        </div>
+                        <div class="p-2 bg-black rounded border border-secondary text-info d-flex justify-content-between align-items-center">
+                            <code class="user-select-all fs-6 text-warning">${k.key}</code>
+                            <span class="badge bg-success">Active Key</span>
+                        </div>
+                    </div>`;
+                });
+            }
+            document.getElementById('my-keys-list').innerHTML = keysHtml;
+
+            if(isAdmin) {
+                let depHtml = '';
+                let pending = db.deposits.filter(d => d.status === 'PENDING');
+                if(pending.length === 0) {
+                    depHtml = '<p class="text-muted text-center py-3">कुनै पनि पेन्डिङ डिपोजिट रिक्वेस्ट छैन।</p>';
+                } else {
+                    pending.forEach(d => {
+                        depHtml += `<div class="d-flex justify-content-between align-items-center bg-black bg-opacity-50 p-3 rounded border border-secondary">
+                            <div>
+                                <span class="fw-bold text-white">${d.username}</span> 
+                                <span class="badge bg-info text-dark ms-2">${d.method.toUpperCase()}</span>
+                                <div class="text-success fw-bold mt-1">Amount: NPR ${d.amount}</div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-success btn-sm px-3 fw-bold" onclick="approveDep(${d.id})"><i class="fa-solid fa-check"></i> Approve</button>
+                                <button class="btn btn-danger btn-sm px-3 fw-bold" onclick="rejectDep(${d.id})"><i class="fa-solid fa-xmark"></i> Reject</button>
+                            </div>
+                        </div>`;
+                    });
+                }
+                document.getElementById('admin-deposits-list').innerHTML = depHtml;
+            }
+        }
+
+        function buyItem(product, duration, price) {
+            if(db.balance < price) {
+                alert('❌ ब्यालेन्स अपुग्दो छ! कृपया पहिले Wallet मा गएर डिपोजिट गर्नुहोस्।');
+                return;
+            }
+            if(confirm(`${product} (${duration}) को लागि NPR ${price} तिर्न कन्फर्म गर्नुहुन्छ?`)) {
+                db.balance -= price;
+                let randomKey = 'XETTRY-' + Math.random().toString(36).substring(2, 8).toUpperCase() + '-' + Math.floor(Math.random()*9000+1000);
+                db.keys.unshift({ product, duration, key: randomKey, date: new Date().toLocaleDateString() });
+                localStorage.setItem('xettry_pro_db', JSON.stringify(db));
+                alert('🎉 सफल! तपाईंको लाइसेन्स कि जेनरेट भयो, "My Keys" ट्याबमा हेर्नुहोस्।');
+                renderDashboard();
+            }
+        }
+
+        function requestDeposit(method) {
+            let amt = parseFloat(document.getElementById('deposit-amt').value);
+            if(!amt || amt <= 0) { alert('कृपया सहि रकम (Amount) हाल्नुहोस्!'); return; }
+            
+            db.deposits.push({ id: Date.now(), username: db.user.name, amount: amt, method: method, status: 'PENDING' });
+            localStorage.setItem('xettry_pro_db', JSON.stringify(db));
+            alert('✅ डिपोजिट रिक्वेस्ट एडमिनकहाँ पठाइयो! एडमिनले अप्रुभ गरेपछि तपाईंको ब्यालेन्स जोडिन्छ।');
+            document.getElementById('deposit-amt').value = '';
+            renderDashboard();
+        }
+
+        function approveDep(id) {
+            let dep = db.deposits.find(d => d.id === id);
+            if(dep) {
+                dep.status = 'APPROVED';
+                db.balance += dep.amount;
+                localStorage.setItem('xettry_pro_db', JSON.stringify(db));
+                renderDashboard();
+                alert('डिपोजिट सफलतापूर्वक अप्रुभ गरियो!');
+            }
+        }
+
+        function rejectDep(id) {
+            let dep = db.deposits.find(d => d.id === id);
+            if(dep) {
+                dep.status = 'REJECTED';
+                localStorage.setItem('xettry_pro_db', JSON.stringify(db));
+                renderDashboard();
+                alert('डिपोजिट अस्वीकार गरियो!');
+            }
+        }
+
+        function logout() {
+            localStorage.clear();
+            location.reload();
+        }
+    </script>
+</body>
+</html>
+23456789; // आफ्नो टेलिग्राम एडमिन आईडी यहाँ राख्नु
 
         const products = [
             { id: 'pubg', name: 'PUBG Mobile VIP Panel', plans: [{dur: '1 Day', price: 150}, {dur: '7 Days', price: 700}, {dur: '30 Days', price: 1800}] },
