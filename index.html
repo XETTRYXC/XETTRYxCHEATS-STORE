@@ -1,39 +1,208 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ne">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xettry Store | Secure Panel & Key Distribution Hub</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>लगिन र अकाउन्ट सिर्जना पेज</title>
     <style>
-        :root {
-            --bg-main: #090d16;
-            --bg-card: #111827;
-            --border-color: #1f2937;
-            --accent-glow: #0ea5e9;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        body { background-color: var(--bg-main); color: #f3f4f6; font-family: 'Inter', sans-serif; }
-        .glass-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); }
-        .nav-pills .nav-link { color: #9ca3af; font-weight: 600; border-radius: 10px; transition: all 0.3s ease; }
-        .nav-pills .nav-link.active { background: linear-gradient(135deg, #0284c7, #0ea5e9); color: #fff; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4); }
-        .stat-card { background: linear-gradient(145deg, #111827, #0f172a); border: 1px solid var(--border-color); border-radius: 12px; }
-        
-        /* Strict View Isolation: कसैले कसैको ठाउँ नमिच्ने */
-        .app-section { display: none !important; }
-        .app-section.active-section { display: block !important; }
-        .app-section.active-flex { display: flex !important; }
 
-        .form-control:focus, .form-select:focus { background-color: #000; color: #fff; border-color: #0ea5e9; box-shadow: 0 0 0 0.25rem rgba(14, 165, 233, 0.25); }
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        /* च्यानलको लोगो स्टायल */
+        .logo-container img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid #667eea;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+        }
+
+        .links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .links a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        /* लुकाउने र देखाउने क्लासहरू */
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
-<body class="py-4 px-2">
+<body>
 
-    <!-- ================= 1. LOGIN SCREEN (सुरुमा मात्र देखा पर्ने) ================= -->
-    <div id="view-login" class="app-section container justify-content-center align-items-center" style="min-height: 90vh;">
-        <div class="row justify-content-center w-100 m-0">
-            <div class="col-md-5 col-lg-4">
-                <div class="glass-card p-4 p-md-5">
+    <div class="container">
+        <!-- च्यानलको लोगो सेक्सन -->
+        <div class="logo-container">
+            <!-- यदि तपाईंको इमेजको वास्तविक लिङ्क अर्कै छ भने यहाँ सिधै परिवर्तन गर्न सक्नुहुन्छ -->
+            <img src="https://i.ibb.co/6JDTrTgp/logo.png" alt="Channel Logo" id="channelLogo" onerror="this.src='https://via.placeholder.com/90?text=Logo'">
+        </div>
+
+        <!-- लगिन सेक्सन -->
+        <div id="loginSection">
+            <h2>लगिन गर्नुहोस्</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUser">युजरनेम वा इमेल</label>
+                    <input type="text" id="loginUser" required placeholder="तपाईंको युजरनेम वा इमेल">
+                </div>
+                <div class="form-group">
+                    <label for="loginPass">पासवर्ड</label>
+                    <input type="password" id="loginPass" required placeholder="तपाईंको पासवर्ड">
+                </div>
+                <button type="submit" class="btn">लगिन</button>
+            </form>
+            <div class="links">
+                <a href="#" onclick="showForgotForm()">फर्गेट पासवर्ड?</a>
+                <a href="#" onclick="showRegisterForm()">नयाँ अकाउन्ट बनाउनुहोस्</a>
+            </div>
+        </div>
+
+        <!-- अकाउन्ट सिर्जना गर्ने सेक्सन (Create Account) -->
+        <div id="registerSection" class="hidden">
+            <h2>अकाउन्ट सिर्जना गर्नुहोस्</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="regEmail">इमेल</label>
+                    <input type="email" id="regEmail" required placeholder="example@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label for="regUser">युजरनेम</label>
+                    <input type="text" id="regUser" required placeholder="युजरनेम छान्नुहोस्">
+                </div>
+                <div class="form-group">
+                    <label for="regPass">पासवर्ड</label>
+                    <input type="password" id="regPass" required placeholder="बलियो पासवर्ड राख्नुहोस्">
+                </div>
+                <button type="submit" class="btn">अकाउन्ट बनाउनुहोस्</button>
+            </form>
+            <div class="links" style="justify-content: center;">
+                <a href="#" onclick="showLoginForm()">पहिले नै अकाउन्ट छ? लगिन गर्नुहोस्</a>
+            </div>
+        </div>
+
+        <!-- फर्गेट पासवर्ड सेक्सन -->
+        <div id="forgotSection" class="hidden">
+            <h2>पासवर्ड रिसेट</h2>
+            <form id="forgotForm">
+                <div class="form-group">
+                    <label for="forgotEmail">तपाईंको दर्ता भएको इमेल</label>
+                    <input type="email" id="forgotEmail" required placeholder="example@gmail.com">
+                </div>
+                <button type="submit" class="btn">रिसेट लिङ्क पठाउनुहोस्</button>
+            </form>
+            <div class="links" style="justify-content: center;">
+                <a href="#" onclick="showLoginForm()">लगिन पेजमा फर्कनुहोस्</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // सेक्सनहरू स्विच (देखਾउने/लुकाउने) गर्ने जाभास्क्रिप्ट कोड
+        function showRegisterForm() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('registerSection').classList.remove('hidden');
+            document.getElementById('forgotSection').classList.add('hidden');
+        }
+
+        function showLoginForm() {
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('registerSection').classList.add('hidden');
+            document.getElementById('forgotSection').classList.add('hidden');
+        }
+
+        function showForgotForm() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('registerSection').classList.add('hidden');
+            document.getElementById('forgotSection').classList.remove('hidden');
+        }
+    </script>
+
+</body>
+</html>
                     <div class="text-center mb-4">
                         <div class="display-5 text-info mb-2"><i class="fa-solid fa-shield-halved"></i></div>
                         <h3 class="fw-bold text-white">Xettry Store</h3>
