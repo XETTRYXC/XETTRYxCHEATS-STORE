@@ -19,31 +19,39 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            /* ब्याकग्राउन्ड कलर बिस्तारै चेन्ज हुने एनिमेसन */
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .container {
-            background: rgba(26, 26, 46, 0.95);
+            background: rgba(26, 26, 46, 0.85);
             width: 100%;
             max-width: 400px;
             padding: 40px 30px;
-            border-radius: 18px;
+            border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
             text-align: center;
-            border: 1px solid rgba(233, 69, 96, 0.3);
-            animation: fadeIn 0.8s ease-in-out;
-            position: relative;
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(233, 69, 96, 0.4);
+            backdrop-filter: blur(12px);
+            /* बक्स बिस्तारै माथि-तल हल्लिरहने (Floating) एनिमेसन */
+            animation: floatContainer 4s ease-in-out infinite;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes floatContainer {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .logo-container {
+            /* लोगो पनि सानो-ठूलो र हल्लिने */
+            animation: pulseLogo 3s ease-in-out infinite;
         }
 
         .logo-container img {
@@ -53,22 +61,28 @@
             object-fit: cover;
             margin-bottom: 15px;
             border: 3px solid #e94560;
-            box-shadow: 0 0 20px rgba(233, 69, 96, 0.6);
-            transition: transform 0.3s ease;
+            box-shadow: 0 0 25px rgba(233, 69, 96, 0.7);
         }
 
-        .logo-container img:hover {
-            transform: scale(1.05);
+        @keyframes pulseLogo {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
         }
 
         .brand-title {
             color: #ffffff;
             font-size: 22px;
             font-weight: 800;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             margin-bottom: 25px;
             text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+            text-shadow: 0 0 15px rgba(233, 69, 96, 0.8);
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes textGlow {
+            from { text-shadow: 0 0 5px rgba(233, 69, 96, 0.5); }
+            to { text-shadow: 0 0 20px rgba(233, 69, 96, 1), 0.5px; }
         }
 
         h2 {
@@ -105,8 +119,9 @@
 
         .form-group input:focus {
             border-color: #e94560;
-            box-shadow: 0 0 10px rgba(233, 69, 96, 0.4);
+            box-shadow: 0 0 12px rgba(233, 69, 96, 0.6);
             background: #1a1a3a;
+            transform: scale(1.01);
         }
 
         .btn {
@@ -126,12 +141,12 @@
 
         .btn:hover {
             background: linear-gradient(135deg, #d63851, #b52c42);
-            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.6);
-            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(233, 69, 96, 0.8);
+            transform: translateY(-3px);
         }
 
         .btn:active {
-            transform: translateY(0);
+            transform: translateY(1px);
         }
 
         .links {
@@ -144,33 +159,27 @@
         .links a {
             color: #00adb5;
             text-decoration: none;
-            transition: 0.2s;
+            transition: 0.3s;
         }
 
         .links a:hover {
             text-decoration: underline;
             color: #e94560;
+            text-shadow: 0 0 8px rgba(0, 173, 181, 0.8);
         }
 
-        /* एनिमेसन सेक्सन ट्रान्जिसनका लागि */
+        /* फर्म स्विच हुँदा यताउता स्लाइड हुने एनिमेसन */
         .form-section {
             display: none;
-            animation: slideUp 0.4s ease forwards;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.4s ease-in-out;
         }
 
         .form-section.active {
             display: block;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            opacity: 1;
+            transform: translateX(0);
         }
     </style>
 </head>
@@ -243,7 +252,7 @@
     </div>
 
     <script>
-        // Smooth form switching with animations
+        // Smooth form switching with slide-in animation
         function switchForm(targetId) {
             const sections = document.querySelectorAll('.form-section');
             sections.forEach(section => {
