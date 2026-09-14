@@ -3,264 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XETTRY x CHEATS - Login</title>
+    <title>XETTRY x CHEATS - Reseller Panel</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #080c14; color: #fff; min-height: 100vh; padding: 15px; display: flex; justify-content: center; }
+        .app-container { width: 100%; max-width: 450px; background: #0f172a; border-radius: 20px; border: 1px solid #1e293b; box-shadow: 0 10px 30px rgba(0,0,0,0.8); overflow: hidden; display: flex; flex-direction: column; }
+        
+        /* Top Header Bar */
+        .header { display: flex; justify-content: space-between; align-items: center; background: #131d31; padding: 15px; border-bottom: 1px solid #1e293b; }
+        .logo-area { display: flex; align-items: center; gap: 10px; }
+        .logo-area img { width: 38px; height: 38px; border-radius: 50%; border: 2px solid #e94560; object-fit: cover; }
+        .logo-area h3 { font-size: 15px; font-weight: 700; color: #fff; }
+        .logo-area small { font-size: 11px; color: #94a3b8; }
+        .balance-badge { background: #1e293b; padding: 6px 12px; border-radius: 20px; color: #2ecc71; font-weight: bold; font-size: 13px; border: 1px solid #2a3b5a; display: flex; align-items: center; gap: 5px; }
 
-        body {
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            /* ब्याकग्राउन्ड कलर बिस्तारै चेन्ज हुने एनिमेसन */
-            background-size: 400% 400%;
-            animation: gradientBG 10s ease infinite;
-        }
+        /* Navigation Tab Bar */
+        .nav-tabs { display: flex; gap: 8px; padding: 12px; background: #0f172a; overflow-x: auto; border-bottom: 1px solid #1e293b; }
+        .nav-tabs::-webkit-scrollbar { display: none; }
+        .tab-btn { background: #131d31; border: 1px solid #1e293b; color: #94a3b8; padding: 8px 14px; border-radius: 8px; cursor: pointer; white-space: nowrap; font-size: 12px; font-weight: 600; transition: 0.3s; }
+        .tab-btn.active, .tab-btn:hover { background: #e94560; color: #fff; border-color: #e94560; box-shadow: 0 0 12px rgba(233, 69, 96, 0.5); }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+        /* Main Content Area */
+        .content-body { padding: 15px; flex-grow: 1; overflow-y: auto; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
 
-        .container {
-            background: rgba(26, 26, 46, 0.85);
-            width: 100%;
-            max-width: 400px;
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-            text-align: center;
-            border: 1px solid rgba(233, 69, 96, 0.4);
-            backdrop-filter: blur(12px);
-            /* बक्स बिस्तारै माथि-तल हल्लिरहने (Floating) एनिमेसन */
-            animation: floatContainer 4s ease-in-out infinite;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes floatContainer {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-        }
+        /* Cards & Stats */
+        .card { background: #131d31; border: 1px solid #1e293b; border-radius: 12px; padding: 15px; margin-bottom: 15px; }
+        .card-title { font-size: 16px; font-weight: bold; color: #e94560; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+        .stat-box { background: #1a263d; padding: 12px 8px; border-radius: 10px; text-align: center; border: 1px solid #2a3b5a; }
+        .stat-box span { font-size: 11px; color: #94a3b8; display: block; }
+        .stat-box h3 { font-size: 18px; margin-top: 4px; color: #fff; }
 
-        .logo-container {
-            /* लोगो पनि सानो-ठूलो र हल्लिने */
-            animation: pulseLogo 3s ease-in-out infinite;
-        }
+        .form-group { margin-bottom: 12px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 5px; color: #cbd5e1; font-size: 12px; }
+        .form-group select, .form-group input { width: 100%; padding: 10px; background: #0b0f19; border: 1px solid #1e293b; border-radius: 8px; color: #fff; font-size: 13px; outline: none; }
+        .form-group select:focus, .form-group input:focus { border-color: #e94560; }
 
-        .logo-container img {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 15px;
-            border: 3px solid #e94560;
-            box-shadow: 0 0 25px rgba(233, 69, 96, 0.7);
-        }
+        .btn { width: 100%; padding: 11px; background: #e94560; border: none; color: white; font-size: 14px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4); }
+        .btn:hover { background: #d63851; box-shadow: 0 6px 16px rgba(233, 69, 96, 0.6); }
 
-        @keyframes pulseLogo {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.06); }
-        }
-
-        .brand-title {
-            color: #ffffff;
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            text-shadow: 0 0 15px rgba(233, 69, 96, 0.8);
-            animation: textGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes textGlow {
-            from { text-shadow: 0 0 5px rgba(233, 69, 96, 0.5); }
-            to { text-shadow: 0 0 20px rgba(233, 69, 96, 1), 0.5px; }
-        }
-
-        h2 {
-            margin-bottom: 20px;
-            color: #e2e2e2;
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            color: #b2bec3;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            background: #16213e;
-            border: 1px solid #0f3460;
-            border-radius: 8px;
-            outline: none;
-            color: #ffffff;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus {
-            border-color: #e94560;
-            box-shadow: 0 0 12px rgba(233, 69, 96, 0.6);
-            background: #1a1a3a;
-            transform: scale(1.01);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #e94560, #d63851);
-            border: none;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
-        }
-
-        .btn:hover {
-            background: linear-gradient(135deg, #d63851, #b52c42);
-            box-shadow: 0 6px 22px rgba(233, 69, 96, 0.8);
-            transform: translateY(-3px);
-        }
-
-        .btn:active {
-            transform: translateY(1px);
-        }
-
-        .links {
-            margin-top: 22px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-        }
-
-        .links a {
-            color: #00adb5;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .links a:hover {
-            text-decoration: underline;
-            color: #e94560;
-            text-shadow: 0 0 8px rgba(0, 173, 181, 0.8);
-        }
-
-        /* फर्म स्विच हुँदा यताउता स्लाइड हुने एनिमेसन */
-        .form-section {
-            display: none;
-            opacity: 0;
-            transform: translateX(30px);
-            transition: all 0.4s ease-in-out;
-        }
-
-        .form-section.active {
-            display: block;
-            opacity: 1;
-            transform: translateX(0);
-        }
+        /* Tables & Lists */
+        .list-item { background: #1a263d; padding: 10px 12px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; border: 1px solid #2a3b5a; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Channel Logo & Brand Name -->
-        <div class="logo-container">
-            <img src="https://i.ibb.co/6JDTrTgp/logo.png" alt="XETTRY x CHEATS Logo" onerror="this.src='https://via.placeholder.com/90?text=Logo'">
-        </div>
-        <div class="brand-title">XETTRY x CHEATS</div>
-
-        <!-- Login Section -->
-        <div id="loginSection" class="form-section active">
-            <h2>Welcome Back</h2>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="loginUser">Username or Email</label>
-                    <input type="text" id="loginUser" required placeholder="Enter your username or email">
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-area">
+                <img src="https://i.ibb.co/6JDTrTgp/logo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/38'">
+                <div>
+                    <h3>XETTRY x CHEATS</h3>
+                    <small>@XETTRYxCHEATS</small>
                 </div>
-                <div class="form-group">
-                    <label for="loginPass">Password</label>
-                    <input type="password" id="loginPass" required placeholder="Enter your password">
-                </div>
-                <button type="submit" class="btn">Login</button>
-            </form>
-            <div class="links">
-                <a href="#" onclick="switchForm('forgotSection')">Forgot Password?</a>
-                <a href="#" onclick="switchForm('registerSection')">Create Account</a>
+            </div>
+            <div class="balance-badge">
+                💰 $<span id="userBalance">26.90</span>
             </div>
         </div>
 
-        <!-- Register Section -->
-        <div id="registerSection" class="form-section">
-            <h2>Create Account</h2>
-            <form id="registerForm">
-                <div class="form-group">
-                    <label for="regEmail">Email</label>
-                    <input type="email" id="regEmail" required placeholder="example@gmail.com">
-                </div>
-                <div class="form-group">
-                    <label for="regUser">Username</label>
-                    <input type="text" id="regUser" required placeholder="Choose a username">
-                </div>
-                <div class="form-group">
-                    <label for="regPass">Password</label>
-                    <input type="password" id="regPass" required placeholder="Create a strong password">
-                </div>
-                <button type="submit" class="btn">Sign Up</button>
-            </form>
-            <div class="links" style="justify-content: center;">
-                <a href="#" onclick="switchForm('loginSection')">Already have an account? Login</a>
-            </div>
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('dashboard', this)">📊 Dashboard</button>
+            <button class="tab-btn" onclick="switchTab('generate', this)">⚡ Generate</button>
+            <button class="tab-btn" onclick="switchTab('history', this)">📜 History</button>
+            <button class="tab-btn" onclick="switchTab('balance', this)">💳 Balance</button>
+            <button class="tab-btn" onclick="switchTab('subsellers', this)">👥 Sub-Sellers</button>
         </div>
 
-        <!-- Forgot Password Section -->
-        <div id="forgotSection" class="form-section">
-            <h2>Reset Password</h2>
-            <form id="forgotForm">
-                <div class="form-group">
-                    <label for="forgotEmail">Registered Email</label>
-                    <input type="email" id="forgotEmail" required placeholder="example@gmail.com">
+        <!-- Body Content -->
+        <div class="content-body">
+            
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <div class="card">
+                    <div class="card-title">📈 My Statistics</div>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <span>ORDERS</span>
+                            <h3>1</h3>
+                        </div>
+                        <div class="stat-box">
+                            <span>KEYS</span>
+                            <h3>1</h3>
+                        </div>
+                        <div class="stat-box">
+                            <span>SPENT</span>
+                            <h3 style="color: #2ecc71;">$0.90</h3>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn">Send Reset Link</button>
-            </form>
-            <div class="links" style="justify-content: center;">
-                <a href="#" onclick="switchForm('loginSection')">Back to Login</a>
+
+                <div class="card">
+                    <div class="card-title">🏆 September 2026 Challenge</div>
+                    <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">Top 3 get up to $17.00 in prizes!</p>
+                    <div style="background: #1a263d; padding: 10px; border-radius: 8px; text-align: center; border: 1px solid #2a3b5a;">
+                        <span style="font-size: 12px; color: #cbd5e1;">Your Current Rank</span>
+                        <h2 style="color: #f1c40f; margin-top: 3px;">#6</h2>
+                    </div>
+                </div>
             </div>
+
+            <!-- Generate Keys Tab -->
+            <div id="generate" class="tab-content">
+                <div class="card">
+                    <div class="card-title">⚡ Generate License Key</div>
+                    <div class="form-group">
+                        <label>Select Product / Game</label>
+                        <select id="productSelect">
+                            <option value="0.90">XETTRY VIP Cheat (1 Day) - $0.90</option>
+                            <option value="5.00">XETTRY VIP Cheat (7 Days) - $5.00</option>
+                            <option value="15.00">XETTRY VIP Cheat (30 Days) - $15.00</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="number" id="keyQty" value="1" min="1" max="10">
+                    </div>
+                    <button class="btn" onclick="generateKey()">Generate Now</button>
+                </div>
+                <div id="resultBox" class="card" style="display:none;">
+                    <div class="card-title">🔑 Generated Key</div>
+                    <div id="generatedKeyText" style="background: #0b0f19; padding: 10px; border-radius: 6px; font-family: monospace; color: #2ecc71; font-size: 13px; word-break: break-all;"></div>
+                </div>
+            </div>
+
+            <!-- History Tab -->
+            <div id="history" class="tab-content">
+                <div class="card">
+                    <div class="card-title">📜 Purchase History</div>
+                    <div class="list-item">
+                        <div>
+                            <strong>VIP 1-Day Key</strong>
+                            <small style="display:block; color:#94a3b8;">Sept 14, 2026</small>
+                        </div>
+                        <span style="color: #2ecc71;">-$0.90</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Balance Tab -->
+            <div id="balance" class="tab-content">
+                <div class="card">
+                    <div class="card-title">💳 Add Balance (Top-Up)</div>
+                    <div class="form-group">
+                        <label>Enter Amount ($)</label>
+                        <input type="number" id="topupAmount" placeholder="10.00">
+                    </div>
+                    <button class="btn" onclick="addBalance()">Proceed to Deposit</button>
+                </div>
+            </div>
+
+            <!-- Sub-Sellers Tab -->
+            <div id="subsellers" class="tab-content">
+                <div class="card">
+                    <div class="card-title">👥 Manage Sub-Sellers</div>
+                    <div class="form-group">
+                        <label>Sub-Seller Username</label>
+                        <input type="text" placeholder="Enter username">
+                    </div>
+                    <button class="btn">Create Sub-Seller</button>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <script>
-        // Smooth form switching with slide-in animation
-        function switchForm(targetId) {
-            const sections = document.querySelectorAll('.form-section');
-            sections.forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById(targetId).classList.add('active');
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+        }
+
+        function generateKey() {
+            const randomKey = 'XETTRY-' + Math.random().toString(36).substring(2, 8).toUpperCase() + '-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+            document.getElementById('generatedKeyTextinnerText') || (document.getElementById('generatedKeyText').innerText = randomKey);
+            document.getElementById('resultBox').style.display = 'block';
+        }
+
+        function addBalance() {
+            let amt = document.getElementById('topupAmount').value;
+            if(amt && amt > 0) {
+                alert("Redirecting to payment gateway for $" + amt);
+            } else {
+                alert("Please enter a valid amount!");
+            }
         }
     </script>
-
 </body>
 </html>
