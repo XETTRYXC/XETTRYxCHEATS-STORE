@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XETTRY x CHEATS - लगिन</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: #1a1a2e;
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            border: 1px solid #16213e;
+        }
+
+        .logo-container img {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid #e94560;
+            box-shadow: 0 0 15px rgba(233, 69, 96, 0.4);
+        }
+
+        .brand-title {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #e2e2e2;
+            font-size: 22px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #b2bec3;
+            font-size: 13px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            background: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 8px;
+            outline: none;
+            color: #ffffff;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #e94560;
+            box-shadow: 0 0 8px rgba(233, 69, 96, 0.3);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #e94560;
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #d63851;
+        }
+
+        .links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+
+        .links a {
+            color: #00adb5;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+            color: #e94560;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- च्यानलको लोगो र नाम -->
+        <div class="logo-container">
+            <img src="https://i.ibb.co/6JDTrTgp/logo.png" alt="XETTRY x CHEATS Logo" onerror="this.src='https://via.placeholder.com/85?text=Logo'">
+        </div>
+        <div class="brand-title">XETTRY x CHEATS</div>
+
+        <!-- लगिन सेक्सन -->
+        <div id="loginSection">
+            <h2>लगिन गर्नुहोस्</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUser">युजरनेम वा इमेल</label>
+                    <input type="text" id="loginUser" required placeholder="तपाईंको युजरनेम वा इमेल">
+                </div>
+                <div class="form-group">
+                    <label for="loginPass">पासवर्ड</label>
+                    <input type="password" id="loginPass" required placeholder="तपाईंको पासवर्ड">
+                </div>
+                <button type="submit" class="btn">लगिन</button>
+            </form>
+            <div class="links">
+                <a href="#" onclick="showForgotForm()">फर्गेट पासवर्ड?</a>
+                <a href="#" onclick="showRegisterForm()">नयाँ अकाउन्ट बनाउनुहोस्</a>
+            </div>
+        </div>
+
+        <!-- अकाउन्ट सिर्जना गर्ने सेक्सन (Create Account) -->
+        <div id="registerSection" class="hidden">
+            <h2>अकाउन्ट बनाउनुहोस्</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="regEmail">इमेल</label>
+                    <input type="email" id="regEmail" required placeholder="example@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label for="regUser">युजरनेम</label>
+                    <input type="text" id="regUser" required placeholder="युजरनेम राख्नुहोस्">
+                </div>
+                <div class="form-group">
+                    <label for="regPass">पासवर्ड</label>
+                    <input type="password" id="regPass" required placeholder="बलियो पासवर्ड राख्नुहोस्">
+                </div>
+                <button type="submit" class="btn">अकाउन्ट बनाउनुहोस्</button>
+            </form>
+            <div class="links" style="justify-content: center;">
+                <a href="#" onclick="showLoginForm()">पहिले नै अकाउन्ट छ? लगिन गर्नुहोस्</a>
+            </div>
+        </div>
+
+        <!-- फर्गेट पासवर्ड सेक्सन -->
+        <div id="forgotSection" class="hidden">
+            <h2>पासवर्ड रिसेट</h2>
+            <form id="forgotForm">
+                <div class="form-group">
+                    <label for="forgotEmail">दर्ता भएको इमेल</label>
+                    <input type="email" id="forgotEmail" required placeholder="example@gmail.com">
+                </div>
+                <button type="submit" class="btn">रिसेट लिङ्क पठाउनुहोस्</button>
+            </form>
+            <div class="links" style="justify-content: center;">
+                <a href="#" onclick="showLoginForm()">लगिन पेजमा फर्कनुहोस्</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showRegisterForm() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('registerSection').classList.remove('hidden');
+            document.getElementById('forgotSection').classList.add('hidden');
+        }
+
+        function showLoginForm() {
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('registerSection').classList.add('hidden');
+            document.getElementById('forgotSection').classList.add('hidden');
+        }
+
+        function showForgotForm() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('registerSection').classList.add('hidden');
+            document.getElementById('forgotSection').classList.remove('hidden');
+        }
+    </script>
+
+</body>
+</html>
